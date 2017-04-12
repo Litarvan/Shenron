@@ -163,6 +163,6 @@ public class Shenron implements IBot
             System.exit(1);
         }
 
-        Krobot.start(args[0], Shenron.class);
+        Krobot.start(args[0], Shenron.class, new ShenronModule());
     }
 }
