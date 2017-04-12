@@ -35,7 +35,7 @@ import fr.litarvan.shenron.middleware.SupportMiddleware;
 
 public class Shenron implements IBot
 {
-    public static final String VERSION = "1.0.0";
+    public static final String VERSION = "2.0.0";
     public static final String TRIGGERED_LINK = "https://www.growtopiagame.com/forums/attachment.php?attachmentid=132753&d=1469397141";
     public static final String OSEF_LINK = "https://www.youtube.com/watch?v=XoDY9vFAaG8";
 
