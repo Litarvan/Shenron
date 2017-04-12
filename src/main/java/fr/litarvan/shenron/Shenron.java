@@ -127,7 +127,7 @@ public class Shenron implements IBot
                                 .description("Met pause/Enlève pause/Passe à la chanson suivante")
                                 .register();
 
-        music.sub("search <query...>", CommandMusicSearch.class)
+        music.sub("search <query:string...>", CommandMusicSearch.class)
              .description("Fait une recherche de 'query' sur YouTube")
              .register();
 
