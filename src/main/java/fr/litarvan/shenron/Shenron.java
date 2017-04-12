@@ -145,10 +145,12 @@ public class Shenron implements IBot
              .register();
 
         group.sub("create <name> [channel]", CommandGroupCreate.class)
+             .middlewares(SDDAdminMiddleware.class)
              .description("(Admin) Créé un groupe")
              .register();
 
         group.sub("trigger <message> [emote#group...]", CommandGroupTrigger.class)
+             .middlewares(SDDAdminMiddleware.class)
              .description("Créé un message avec des réactions permettant de rejoindre des groupes")
              .register();
     }
