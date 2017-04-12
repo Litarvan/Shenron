@@ -1,0 +1,30 @@
+group 'org.sdd'
+version '1.0.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+
+    maven {
+        url 'http://krobot-framework.github.io/maven'
+    }
+
+    maven {
+        url 'http://wytrem.github.io/maven'
+    }
+}
+
+dependencies {
+    compile 'fr.litarvan.krobot:krobot-framework:2.0.0'
+    compile 'com.sedmelluq:lavaplayer:1.2.36'
+    compile 'net.wytrem:wylog:2.0'
+
+    compile 'com.github.axet:vget:1.2.6'
+    compile 'com.google.apis:google-api-services-youtube:v3-rev182-1.22.0'
+    compile 'com.google.oauth-client:google-oauth-client-jetty:1.20.0'
+    compile 'com.google.http-client:google-http-client-jackson2:1.20.0'
+}

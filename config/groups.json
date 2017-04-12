@@ -1,0 +1,241 @@
+{
+  "groups": [
+    {
+      "name": "Java",
+      "channel": "java"
+    },
+    {
+      "name": "C++",
+      "channel": "cplusplus"
+    },
+    {
+      "name": "C-lang",
+      "channel": "c_lang"
+    },
+    {
+      "name": "Bas-Level",
+      "channel": "bas_level"
+    },
+    {
+      "name": "Javascript",
+      "channel": "javascript"
+    },
+    {
+      "name": "HTML/CSS",
+      "channel": "html_css"
+    },
+    {
+      "name": "Ruby",
+      "channel": "ruby"
+    },
+    {
+      "name": "Python",
+      "channel": "python"
+    },
+    {
+      "name": "Lua",
+      "channel": "lua"
+    },
+    {
+      "name": "Rust",
+      "channel": "rust"
+    },
+    {
+      "name": "Arduino",
+      "channel": "arduino"
+    },
+    {
+      "name": "Windows"
+    },
+    {
+      "name": "MacOS"
+    },
+    {
+      "name": "Linux",
+      "channel": "linux-unix"
+    },
+    {
+      "name": "Go",
+      "channel": "go"
+    },
+    {
+      "name": "PHP",
+      "channel": "php"
+    },
+    {
+      "name": "Elixir",
+      "channel": "elixir"
+    },
+    {
+      "name": "Haskell",
+      "channel": "haskell"
+    },
+    {
+      "name": "Cryptomonnaie",
+      "channel": "cryptomonnaie"
+    },
+    {
+      "name": "Pervers",
+      "channel": "l_antre_de_sierra"
+    }
+  ],
+  "triggers": [
+    {
+      "messageId": "290602972801662977",
+      "groups": [
+        {
+          "left": "290567930142523392",
+          "right": "Windows"
+        },
+        {
+          "left": "290568664720343040",
+          "right": "MacOS"
+        },
+        {
+          "left": "290568662786637824",
+          "right": "Linux"
+        }
+      ]
+    },
+    {
+      "messageId": "290605441598357504",
+      "groups": [
+        {
+          "left": "290567082779607041",
+          "right": "HTML/CSS"
+        },
+        {
+          "left": "290567933980180482",
+          "right": "Javascript"
+        },
+        {
+          "left": "290605347834691586",
+          "right": "PHP"
+        }
+      ]
+    },
+    {
+      "messageId": "290607770053509121",
+      "groups": [
+        {
+          "left": "290567930142523392",
+          "right": "Windows"
+        },
+        {
+          "left": "290568664720343040",
+          "right": "MacOS"
+        },
+        {
+          "left": "290568662786637824",
+          "right": "Linux"
+        }
+      ]
+    },
+    {
+      "messageId": "290607830749282305",
+      "groups": [
+        {
+          "left": "290567082779607041",
+          "right": "HTML/CSS"
+        },
+        {
+          "left": "290567933980180482",
+          "right": "Javascript"
+        },
+        {
+          "left": "290605347834691586",
+          "right": "PHP"
+        }
+      ]
+    },
+    {
+      "messageId": "290608263035092993",
+      "groups": [
+        {
+          "left": "290567133354655755",
+          "right": "C-lang"
+        },
+        {
+          "left": "290566304191086602",
+          "right": "C++"
+        },
+        {
+          "left": "230419011936976896",
+          "right": "Rust"
+        },
+        {
+          "left": "290608221910073344",
+          "right": "Go"
+        },
+        {
+          "left": "290566474475503619",
+          "right": "Bas-Level"
+        }
+      ]
+    },
+    {
+      "messageId": "290614300853141505",
+      "groups": [
+        {
+          "left": "290566164856438784",
+          "right": "Java"
+        },
+        {
+          "left": "290567933938106368",
+          "right": "Lua"
+        },
+        {
+          "left": "290567114761306112",
+          "right": "Ruby"
+        },
+        {
+          "left": "290608864934494208",
+          "right": "Python"
+        }
+      ]
+    },
+    {
+      "messageId": "290614334080548865",
+      "groups": [
+        {
+          "left": "290569418679779328",
+          "right": "Haskell"
+        },
+        {
+          "left": "290568484272734209",
+          "right": "Elixir"
+        }
+      ]
+    },
+    {
+      "messageId": "290614530512519170",
+      "groups": [
+        {
+          "left": "290569160730345472",
+          "right": "Cryptomonnaie"
+        },
+        {
+          "left": "230414825778315264",
+          "right": "Pervers"
+        }
+      ]
+    },
+    {
+      "messageId": "290624677217304578",
+      "groups": [
+        {
+          "left": "290567930142523392",
+          "right": "Windows"
+        },
+        {
+          "left": "290568664720343040",
+          "right": "MacOS"
+        },
+        {
+          "left": "290568662786637824",
+          "right": "Linux"
+        }
+      ]
+    }
+  ]
+}
