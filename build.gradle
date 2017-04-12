@@ -2,9 +2,12 @@ group 'org.sdd'
 version '1.0.0'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+mainClassName = 'fr.litarvan.shenron.Shenron'
 
 repositories {
     jcenter()
