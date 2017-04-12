@@ -20,6 +20,12 @@ public class CommandMusic implements CommandHandler
     {
         if (!args.containsKey("action"))
         {
+            if (player.getQueue().size() == 0)
+            {
+                context.getChannel().sendMessage(Dialog.info("Pas de musique", "Il n'y a pas de musique en train d'être jouée actuellement")).queue();
+                return;
+            }
+
             AudioTrack track = player.getQueue().get(0);
             context.getChannel().sendMessage(Dialog.info("Musique actuelle", "\n" + track.getInfo().title + "\n" + Music.parseTime(track.getPosition()) + " / " + Music.parseTime(track.getDuration()))).queue();
 
