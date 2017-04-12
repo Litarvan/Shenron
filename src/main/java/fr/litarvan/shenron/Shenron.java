@@ -58,7 +58,7 @@ public class Shenron implements IBot
         // Bot initializing
         LOGGER.info("Loading Shenron v" + VERSION);
 
-        jda.addEventListener(new GroupListener());
+        jda.addEventListener(Krobot.injector().getInstance(GroupListener.class));
 
         // Setting up configs
         configs.from("config/admins.json");
