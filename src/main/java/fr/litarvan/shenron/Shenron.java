@@ -23,6 +23,7 @@ import fr.litarvan.shenron.middleware.AdminMiddleware;
 import java.io.File;
 import javax.inject.Inject;
 import javax.security.auth.login.LoginException;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,6 +44,9 @@ public class Shenron implements IBot
     private static final Logger LOGGER = LogManager.getLogger("Shenron");
 
     @Inject
+    private JDA jda;
+
+    @Inject
     private CommandManager commands;
 
     @Inject
@@ -53,6 +57,8 @@ public class Shenron implements IBot
     {
         // Bot initializing
         LOGGER.info("Loading Shenron v" + VERSION);
+
+        jda.addEventListener(new GroupListener());
 
         // Setting up configs
         configs.from("config/admins.json");
