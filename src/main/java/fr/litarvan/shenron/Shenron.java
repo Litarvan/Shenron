@@ -7,33 +7,16 @@ import fr.litarvan.krobot.command.CommandManager;
 import fr.litarvan.krobot.command.HelpCommand;
 import fr.litarvan.krobot.config.ConfigProvider;
 import fr.litarvan.krobot.util.Markdown;
-import fr.litarvan.shenron.command.CommandClear;
-import fr.litarvan.shenron.command.CommandClearWhere;
-import fr.litarvan.shenron.command.CommandSimpleLink;
-import fr.litarvan.shenron.command.group.CommandGroup;
-import fr.litarvan.shenron.command.group.CommandGroupCreate;
-import fr.litarvan.shenron.command.group.CommandGroupJoin;
-import fr.litarvan.shenron.command.group.CommandGroupLeave;
-import fr.litarvan.shenron.command.group.CommandGroupTrigger;
-import fr.litarvan.shenron.command.music.CommandMusicPlay;
-import fr.litarvan.shenron.command.music.CommandMusicPop;
-import fr.litarvan.shenron.command.music.CommandMusicQueue;
-import fr.litarvan.shenron.command.music.CommandMusicSearch;
-import fr.litarvan.shenron.middleware.AdminMiddleware;
-import java.io.File;
+import fr.litarvan.shenron.command.*;
+import fr.litarvan.shenron.command.group.*;
+import fr.litarvan.shenron.command.music.*;
+import fr.litarvan.shenron.middleware.*;
 import javax.inject.Inject;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import fr.litarvan.shenron.command.CommandAddAdmin;
-import fr.litarvan.shenron.command.CommandFAQ;
-import fr.litarvan.shenron.command.music.CommandMusic;
-import fr.litarvan.shenron.command.CommandWordReact;
-import fr.litarvan.shenron.command.music.CommandMusicVolume;
-import fr.litarvan.shenron.middleware.SDDMiddleware;
-import fr.litarvan.shenron.middleware.SupportMiddleware;
 
 public class Shenron implements IBot
 {
@@ -154,15 +137,19 @@ public class Shenron implements IBot
                                 .register();
 
         group.sub("join <group>", CommandGroupJoin.class)
+             .description("Vous ajoute dans le groupe donné")
              .register();
 
         group.sub("leave [group]", CommandGroupLeave.class)
+             .description("Quitte le groupe donné ou le groupe où le message est envoyé")
              .register();
 
         group.sub("create <name> [channel]", CommandGroupCreate.class)
+             .description("(Admin) Créé un groupe")
              .register();
 
         group.sub("trigger <message> [emote#group...]", CommandGroupTrigger.class)
+             .description("Créé un message avec des réactions permettant de rejoindre des groupes")
              .register();
     }
 
