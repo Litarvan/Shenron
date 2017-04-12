@@ -20,6 +20,7 @@ import fr.litarvan.shenron.command.music.CommandMusicPop;
 import fr.litarvan.shenron.command.music.CommandMusicQueue;
 import fr.litarvan.shenron.command.music.CommandMusicSearch;
 import fr.litarvan.shenron.middleware.AdminMiddleware;
+import java.io.File;
 import javax.inject.Inject;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
@@ -59,6 +60,12 @@ public class Shenron implements IBot
         configs.from("config/shenron.json");
         configs.from("config/support.json");
         configs.from("config/youtube.json");
+
+        if (!configs.from("config/youtube.json").getFile().exists())
+        {
+            LOGGER.fatal("You need to create config/youtube.json file like :\n{\n    \"app-name\": \"your-google-app-name\",\n    \"api-key\": \"your-google-api-key\"\n}");
+            System.exit(1);
+        }
 
         // Loading commands
         commands.group().prefix(configs.at("shenron.prefix")).apply(this::commands);
