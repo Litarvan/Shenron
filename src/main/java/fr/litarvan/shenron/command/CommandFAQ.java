@@ -6,6 +6,7 @@ import fr.litarvan.krobot.command.SuppliedArgument;
 import fr.litarvan.krobot.config.ConfigProvider;
 import java.util.Map;
 import javax.inject.Inject;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
@@ -21,7 +22,7 @@ public class CommandFAQ implements CommandHandler
     {
         String link = config.at("support.faq");
 
-        if (!args.containsKey("target") || config.at("support.admins." + context.getUser().getId()) == null)
+        if (!args.containsKey("target") || !context.getMember().hasPermission(Permission.ADMINISTRATOR))
         {
             context.sendMessage("FAQ : " + link);
             return;

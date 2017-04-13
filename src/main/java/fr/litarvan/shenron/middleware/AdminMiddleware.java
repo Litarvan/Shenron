@@ -8,19 +8,17 @@ import fr.litarvan.krobot.config.ConfigProvider;
 import fr.litarvan.krobot.util.Dialog;
 import java.util.Map;
 import javax.inject.Inject;
+import net.dv8tion.jda.core.Permission;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class AdminMiddleware implements Middleware
 {
-    @Inject
-    private ConfigProvider config;
-
     @Override
     public boolean handle(Command command, Map<String, SuppliedArgument> args, CommandContext context)
     {
-        if (!ArrayUtils.contains(config.get("admins").at("main", String[].class), context.getUser().getId()))
+        if (!context.getMember().hasPermission(Permission.ADMINISTRATOR))
         {
-            context.sendMessage(Dialog.error("Non-autorisé", "Seul un administrateur principal peut faire ça"));
+            context.sendMessage(Dialog.error("Non-autorisé", "Seul un administrateur peut faire ça"));
             return false;
         }
 

@@ -80,10 +80,6 @@ public class Shenron implements IBot
             group();
         });
 
-        commands.make("add-admin <scope:main|sdd|support> <targets:user...>", CommandAddAdmin.class)
-                .description("Ajoute un administrateur")
-                .middlewares(AdminMiddleware.class).register();
-
         commands.make("wr <message>", CommandWordReact.class)
                 .description("Ajoute le message donné sous forme de réaction au dernier message")
                 .register();
@@ -157,12 +153,12 @@ public class Shenron implements IBot
              .register();
 
         group.sub("create <name> [channel]", CommandGroupCreate.class)
-             .middlewares(SDDAdminMiddleware.class)
+             .middlewares(AdminMiddleware.class)
              .description("(Admin) Créé un groupe")
              .register();
 
         group.sub("trigger <message> [emote#group...]", CommandGroupTrigger.class)
-             .middlewares(SDDAdminMiddleware.class)
+             .middlewares(AdminMiddleware.class)
              .description("Créé un message avec des réactions permettant de rejoindre des groupes")
              .register();
     }
