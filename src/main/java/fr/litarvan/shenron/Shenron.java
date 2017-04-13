@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Shenron implements IBot
 {
-    public static final String VERSION = "2.0.0";
+    public static final String VERSION = "2.1.0";
     public static final String TRIGGERED_LINK = "https://www.growtopiagame.com/forums/attachment.php?attachmentid=132753&d=1469397141";
     public static final String OSEF_LINK = "https://www.youtube.com/watch?v=XoDY9vFAaG8";
 
@@ -96,12 +96,19 @@ public class Shenron implements IBot
                 .description("Affiche le même 'triggered'")
                 .register();
 
-        commands.make("clear <amount:number>", CommandClear.class)
+        Command clear = commands.make("clear <amount:number>", CommandClear.class)
                 .description("Supprime le nombre de message donnés à partir du dernier posté")
-                .register()
-                    .sub("where <where:before|after> <query> <amount:number>", CommandClearWhere.class)
-                    .description("Supprime le nombre de message donné après ou avant un certains message (query correspond à une partie de son contenu, pour le rechercher)")
-                    .register();
+                .register();
+
+        clear.sub("before <query> <amount:number>", new CommandClearWhere(false))
+             .middlewares(CanClearMiddleware.class)
+             .description("Supprime le nombre de message donné avant un certains message (query correspond à une partie de son contenu, pour le rechercher)")
+             .register();
+
+        clear.sub("after <query> <amount:number>", new CommandClearWhere(true))
+             .middlewares(CanClearMiddleware.class)
+             .description("Supprime le nombre de message donné après un certains message (query correspond à une partie de son contenu, pour le rechercher)")
+             .register();
     }
 
     private void music()
@@ -138,6 +145,7 @@ public class Shenron implements IBot
     private void group()
     {
         Command group = commands.make("group", CommandGroup.class)
+                                .description("Affiche la liste des groupes")
                                 .register();
 
         group.sub("join <group>", CommandGroupJoin.class)

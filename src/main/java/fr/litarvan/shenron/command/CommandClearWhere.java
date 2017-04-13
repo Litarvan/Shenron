@@ -16,24 +16,16 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommandClearWhere implements CommandHandler
 {
-    @Inject
-    private JDA jda;
+    private boolean after;
+
+    public CommandClearWhere(boolean after)
+    {
+        this.after = after;
+    }
 
     @Override
     public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
-        if (!context.getMember().hasPermission(context.getChannel(), Permission.MESSAGE_MANAGE))
-        {
-            context.getChannel().sendMessage(Dialog.error("Non-autorisé", "Vous n'avez pas la permission de supprimer les messages")).queue();
-            return;
-        }
-
-        if (!context.getGuild().getMember(jda.getSelfUser()).hasPermission(context.getChannel(), Permission.MESSAGE_MANAGE))
-        {
-            context.getChannel().sendMessage(Dialog.error("Non-autorisé", "Shenron n'a pas la permission de supprimer les messages")).queue();
-            return;
-        }
-
         context.getMessage().delete().submit().get();
 
         List<Message> messages = context.getChannel().getHistory().retrievePast(100).complete();
@@ -58,7 +50,6 @@ public class CommandClearWhere implements CommandHandler
 
         int amount = args.get("amount").getAsNumber();
         MessageHistory history = context.getChannel().getHistoryAround(from, amount).complete();
-        boolean after = args.get("where").getAsString().equals("after");
 
         messages = new ArrayList<>();
 
