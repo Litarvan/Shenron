@@ -30,7 +30,7 @@ public class CommandFAQ implements CommandHandler
 
         Member member = context.getGuild().getMember(args.get("target").getAsUser());
 
-        context.sendMessage(String.format(config.at("support.message"), member.getUser().getAsMention(), link));
+        context.sendMessage(config.at("support.message"), member.getUser().getAsMention(), link);
 
         Role moche = context.getGuild().getRolesByName("Pabo", true).get(0);
         Role hyperMoche = context.getGuild().getRolesByName("Hyper Pabo", true).get(0);

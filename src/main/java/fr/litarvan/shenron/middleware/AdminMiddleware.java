@@ -10,11 +10,12 @@ import java.util.Map;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.Permission;
 import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 
 public class AdminMiddleware implements Middleware
 {
     @Override
-    public boolean handle(Command command, Map<String, SuppliedArgument> args, CommandContext context)
+    public boolean handle(@NotNull Command command, Map<String, SuppliedArgument> args, @NotNull CommandContext context)
     {
         if (!context.getMember().hasPermission(Permission.ADMINISTRATOR))
         {

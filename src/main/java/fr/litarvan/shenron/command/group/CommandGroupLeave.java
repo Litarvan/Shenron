@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import fr.litarvan.shenron.Group;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandGroupLeave implements CommandHandler
 {
@@ -18,7 +19,7 @@ public class CommandGroupLeave implements CommandHandler
     private ConfigProvider config;
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args) throws Exception
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
         String group = args.containsKey("group") ? args.get("group").getAsString() : null;
 
@@ -36,20 +37,19 @@ public class CommandGroupLeave implements CommandHandler
 
         if (group == null)
         {
-            context.getChannel().sendMessage(Dialog.warn("Erreur", args.containsKey("group") ? "Groupe inconnu" : "Le channel dans lequel vous êtes n'est pas un channel de groupe")).queue();
+            context.sendMessage(Dialog.warn("Erreur", args.containsKey("group") ? "Groupe inconnu" : "Le channel dans lequel vous êtes n'est pas un channel de groupe"));
             return;
         }
 
-        Guild guild = context.getChannel().getGuild();
-        List<Role> roles = guild.getRolesByName(group, true);
+        List<Role> roles = context.getGuild().getRolesByName(group, true);
 
         if (roles.size() == 0)
         {
-            context.getChannel().sendMessage(Dialog.warn("Erreur", "Ce groupe est inconnu")).queue();
+            context.sendMessage(Dialog.warn("Erreur", "Ce groupe est inconnu"));
             return;
         }
 
-        guild.getController().removeRolesFromMember(guild.getMember(context.getUser()), roles.get(0)).complete();
-        context.getChannel().sendMessage(Dialog.info(args.containsKey("group") ? "Succès" : "Au revoir", args.containsKey("group") ? "Vous avez bien été supprimé du groupe" : context.getUser().getName() + " a quitté le groupe")).queue();
+        context.getGuild().getController().removeRolesFromMember(context.getMember(), roles.get(0)).complete();
+        context.sendMessage(Dialog.info(args.containsKey("group") ? "Succès" : "Au revoir", args.containsKey("group") ? "Vous avez bien été supprimé du groupe" : context.getUser().getName() + " a quitté le groupe"));
     }
 }

@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import fr.litarvan.shenron.Group;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandGroupJoin implements CommandHandler
 {
@@ -18,7 +19,7 @@ public class CommandGroupJoin implements CommandHandler
     private ConfigProvider config;
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args) throws Exception
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
         String group = args.get("group").getAsString();
         Group[] groups = config.at("groups.groups", Group[].class);
@@ -35,21 +36,20 @@ public class CommandGroupJoin implements CommandHandler
 
         if (!exists)
         {
-            context.getChannel().sendMessage(Dialog.warn("Erreur", "Ce groupe est inconnu")).queue();
+            context.sendMessage(Dialog.warn("Erreur", "Ce groupe est inconnu"));
             return;
         }
 
-        Guild guild = context.getMessage().getGuild();
-        List<Role> roles = guild.getRolesByName(group, true);
+        List<Role> roles = context.getGuild().getRolesByName(group, true);
 
         if (roles.size() == 0)
         {
-            context.getChannel().sendMessage(Dialog.error("Erreur", "Ce groupe a été supprimé\nL'admin devrait le supprimer de la configuration")).queue();
+            context.sendMessage(Dialog.error("Erreur", "Ce groupe a été supprimé\nL'admin devrait le supprimer de la configuration"));
             return;
         }
 
         Role role = roles.get(0);
-        guild.getController().addRolesToMember(guild.getMember(context.getUser()), role).queue();
+        context.getGuild().getController().addRolesToMember(context.getMember(), role).queue();
 
         context.getChannel().sendMessage(Dialog.info("Succès", "Vous avez bien été ajouté au groupe")).queue();
     }

@@ -13,6 +13,7 @@ import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.PermissionOverride;
 import net.dv8tion.jda.core.entities.Role;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandGroupCreate implements CommandHandler
 {
@@ -20,7 +21,7 @@ public class CommandGroupCreate implements CommandHandler
     private ConfigProvider config;
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args) throws Exception
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
         String name = args.get("name").getAsString();
         String channel = args.containsKey("channel") ? args.get("channel").getAsString().toLowerCase() : name.toLowerCase();
@@ -29,17 +30,15 @@ public class CommandGroupCreate implements CommandHandler
         {
             if (group.getName().equalsIgnoreCase(name))
             {
-                context.getChannel().sendMessage(Dialog.warn("Erreur", "Un groupe du même nom existe déjà")).queue();
+                context.sendMessage(Dialog.warn("Erreur", "Un groupe du même nom existe déjà"));
                 return;
             }
         }
 
-        Guild guild = context.getChannel().getGuild();
-        Role role = guild.getController().createRole().complete();
+        Role role = context.getGuild().getController().createRole().complete();
 
-        Role member = guild.getRolesByName("Membre", true).get(0);
-
-        Channel chan = guild.getController().createTextChannel(channel).complete();
+        Role member = context.getGuild().getRolesByName("Membre", true).get(0);
+        Channel chan = context.getGuild().getController().createTextChannel(channel).complete();
 
         PermissionOverride perm = chan.createPermissionOverride(member).complete();
         perm.getManager().deny(Permission.MESSAGE_READ).queue();
@@ -52,6 +51,6 @@ public class CommandGroupCreate implements CommandHandler
 
         config.get("groups").append("groups", Group[].class, new Group(name, channel));
 
-        context.getChannel().sendMessage(Dialog.info("Succès", "Groupe '" + name + "' créé (channel #" + channel + " )")).queue();
+        context.sendMessage(Dialog.info("Succès", "Groupe '" + name + "' créé (channel #" + channel + " )"));
     }
 }

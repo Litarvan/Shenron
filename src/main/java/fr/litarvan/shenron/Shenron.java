@@ -6,6 +6,7 @@ import fr.litarvan.krobot.command.Command;
 import fr.litarvan.krobot.command.CommandManager;
 import fr.litarvan.krobot.command.HelpCommand;
 import fr.litarvan.krobot.config.ConfigProvider;
+import fr.litarvan.krobot.util.Dialog;
 import fr.litarvan.krobot.util.Markdown;
 import fr.litarvan.shenron.command.*;
 import fr.litarvan.shenron.command.group.*;

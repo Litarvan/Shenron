@@ -14,6 +14,7 @@ import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Message;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import fr.litarvan.shenron.Group;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandGroupTrigger implements CommandHandler
 {
@@ -21,12 +22,12 @@ public class CommandGroupTrigger implements CommandHandler
     private ConfigProvider config;
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args) throws Exception
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
         String text = args.get("message").getAsString();
         List<String> triggerStrings = args.get("emote#group").getAsStringList();
 
-        Message message = context.getChannel().sendMessage(text).complete();
+        Message message = context.sendMessage(text).get();
 
         List<ImmutablePair<String, String>> entries = new ArrayList<>();
 
@@ -41,7 +42,7 @@ public class CommandGroupTrigger implements CommandHandler
 
             if (emotes.size() == 0)
             {
-                context.getChannel().sendMessage(Dialog.warn("Erreur", "Impossible de trouver l'emote '" + emoteName + "'")).queue();
+                context.sendMessage(Dialog.warn("Erreur", "Impossible de trouver l'emote '" + emoteName + "'"));
                 message.delete().queue();
 
                 return;
@@ -60,7 +61,7 @@ public class CommandGroupTrigger implements CommandHandler
 
             if (gr == null)
             {
-                context.getChannel().sendMessage(Dialog.warn("Erreur", "Impossible de trouver le groupe '" + groupName + "'")).queue();
+                context.sendMessage(Dialog.warn("Erreur", "Impossible de trouver le groupe '" + groupName + "'"));
                 message.delete().queue();
 
                 return;

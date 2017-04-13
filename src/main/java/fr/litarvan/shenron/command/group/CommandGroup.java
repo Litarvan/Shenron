@@ -9,6 +9,7 @@ import fr.litarvan.krobot.util.Markdown;
 import fr.litarvan.shenron.Group;
 import java.util.Map;
 import javax.inject.Inject;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandGroup implements CommandHandler
 {
@@ -16,7 +17,7 @@ public class CommandGroup implements CommandHandler
     private ConfigProvider config;
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args) throws Exception
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
         StringBuilder message = new StringBuilder();
 
@@ -25,6 +26,6 @@ public class CommandGroup implements CommandHandler
             message.append(" - ").append(group.getName()).append(group.getChannel() != null ? " ( #" + group.getChannel() + " )" : "").append("\n");
         }
 
-        context.getChannel().sendMessage(Dialog.info(Markdown.underline("Liste de groupes :"), message.toString())).queue();
+        context.sendMessage(Dialog.info(Markdown.underline("Liste de groupes :"), message.toString()));
     }
 }
