@@ -1,18 +1,17 @@
 package fr.litarvan.shenron.command.music;
 
-import fr.litarvan.krobot.Krobot;
 import fr.litarvan.krobot.command.CommandContext;
 import fr.litarvan.krobot.command.CommandHandler;
 import fr.litarvan.krobot.command.SuppliedArgument;
 import fr.litarvan.krobot.util.Dialog;
 import fr.litarvan.shenron.ShenronPlayerSendHandler;
-import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.entities.GuildVoiceState;
 import net.dv8tion.jda.core.managers.AudioManager;
 import fr.litarvan.shenron.MusicPlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandMusicPop implements CommandHandler
 {
@@ -20,22 +19,12 @@ public class CommandMusicPop implements CommandHandler
     private MusicPlayer player;
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args) throws Exception
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
         Guild guild = context.getChannel().getGuild();
-        List<VoiceChannel> channels = guild.getVoiceChannels();
+        GuildVoiceState state = guild.getMember(context.getUser()).getVoiceState();
 
-        VoiceChannel channel = null;
-
-        for (VoiceChannel chan : channels)
-        {
-            if (chan.getMembers().contains(guild.getMember(context.getUser())))
-            {
-                channel = chan;
-            }
-        }
-
-        if (channel == null)
+        if (!state.inVoiceChannel())
         {
             context.getChannel().sendMessage(Dialog.warn("Erreur", "Vous n'êtes pas dans un channel vocal")).queue();
             return;
@@ -43,8 +32,8 @@ public class CommandMusicPop implements CommandHandler
 
         AudioManager manager = guild.getAudioManager();
         manager.setSendingHandler(new ShenronPlayerSendHandler(player.getPlayer()));
-        manager.openAudioConnection(channel);
+        manager.openAudioConnection(state.getChannel());
 
-        Krobot.injector().getInstance(MusicPlayer.class).play();
+        player.play();
     }
 }

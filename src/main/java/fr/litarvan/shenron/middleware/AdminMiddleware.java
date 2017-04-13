@@ -20,7 +20,7 @@ public class AdminMiddleware implements Middleware
     {
         if (!ArrayUtils.contains(config.get("admins").at("main", String[].class), context.getUser().getId()))
         {
-            context.getChannel().sendMessage(Dialog.error("Non-autorisé", "Seul un administrateur principal peut faire ça")).queue();
+            context.sendMessage(Dialog.error("Non-autorisé", "Seul un administrateur principal peut faire ça"));
             return false;
         }
 

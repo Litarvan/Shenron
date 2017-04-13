@@ -16,6 +16,6 @@ public class SDDMiddleware implements Middleware
     @Override
     public boolean handle(Command command, Map<String, SuppliedArgument> args, CommandContext context)
     {
-        return context.getChannel().getGuild().getName().equals(config.at("shenron.sdd"));
+        return context.getGuild().getName().equals(config.at("shenron.sdd"));
     }
 }

@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import net.dv8tion.jda.core.EmbedBuilder;
 import fr.litarvan.shenron.Music;
 import fr.litarvan.shenron.MusicPlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandMusicPlay implements CommandHandler
 {
@@ -19,14 +20,14 @@ public class CommandMusicPlay implements CommandHandler
     private MusicPlayer player;
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args) throws Exception
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
         String music = args.get("url").getAsString();
         Video video = player.validate(music);
 
         if (video == null)
         {
-            context.getChannel().sendMessage(Dialog.warn("Erreur", "Impossible de trouver cette vidéo !\nVous devez entrer un url de vidéo Youtube")).queue();
+            context.sendMessage(Dialog.warn("Erreur", "Impossible de trouver cette vidéo !\nVous devez entrer un url de vidéo Youtube"));
             return;
         }
 
@@ -51,6 +52,6 @@ public class CommandMusicPlay implements CommandHandler
 
         player.load(music);
 
-        context.getChannel().sendMessage(builder.build()).queue();
+        context.sendMessage(builder);
     }
 }

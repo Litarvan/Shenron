@@ -106,11 +106,11 @@ public class Shenron implements IBot
 
     private void music()
     {
-        Command music = commands.make("music [action:pause|unpause|next]", CommandMusic.class)
-                                .description("Met pause/Enlève pause/Passe à la chanson suivante")
+        Command music = commands.make("music [action:pause|unpause|next|stop]", CommandMusic.class)
+                                .description("Met pause/Enlève pause/Stop/Passe à la chanson suivante")
                                 .register();
 
-        music.sub("search <query:string...>", CommandMusicSearch.class)
+        music.sub("search <query...>", CommandMusicSearch.class)
              .description("Fait une recherche de 'query' sur YouTube")
              .register();
 
@@ -124,6 +124,10 @@ public class Shenron implements IBot
 
         music.sub("pop", CommandMusicPop.class)
              .description("Fait popper Shenron dans le channel vocal où vous êtes")
+             .register();
+
+        music.sub("drop", CommandMusicDrop.class)
+             .description("Fait quitter Shenron du channel vocal")
              .register();
 
         music.sub("queue", CommandMusicQueue.class)
@@ -163,6 +167,6 @@ public class Shenron implements IBot
             System.exit(1);
         }
 
-        Krobot.start(args[0], Shenron.class, new ShenronModule());
+        Krobot.start(args[0], Shenron.class);
     }
 }

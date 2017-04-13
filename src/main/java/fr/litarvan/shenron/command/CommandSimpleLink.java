@@ -5,6 +5,7 @@ import fr.litarvan.krobot.command.CommandHandler;
 import fr.litarvan.krobot.command.SuppliedArgument;
 import java.util.Map;
 import fr.litarvan.shenron.MessageSudo;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandSimpleLink implements CommandHandler
 {
@@ -16,7 +17,7 @@ public class CommandSimpleLink implements CommandHandler
     }
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args) throws Exception
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
         MessageSudo.send(context.getUser(), context.getChannel(), link);
     }

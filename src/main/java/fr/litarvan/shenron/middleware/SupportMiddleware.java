@@ -16,6 +16,6 @@ public class SupportMiddleware implements Middleware
     @Override
     public boolean handle(Command command, Map<String, SuppliedArgument> args, CommandContext context)
     {
-        return context.getChannel().getGuild().getName().equals(config.at("support.name"));
+        return context.getGuild().getName().equals(config.at("support.name"));
     }
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import fr.litarvan.shenron.Music;
 import fr.litarvan.shenron.MusicPlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandMusicQueue implements CommandHandler
 {
@@ -17,7 +18,7 @@ public class CommandMusicQueue implements CommandHandler
     private MusicPlayer player;
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args) throws Exception
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
         StringBuilder message = new StringBuilder();
 
@@ -27,6 +28,6 @@ public class CommandMusicQueue implements CommandHandler
             message.append(i + 1).append(". ").append(Markdown.bold(track.getInfo().title)).append(" ").append(Music.parseTime(track.getDuration())).append("\n\n");
         }
 
-        context.getChannel().sendMessage(Dialog.info("File d'attente", message.toString())).queue();
+        context.sendMessage(Dialog.info("File d'attente", message.toString()));
     }
 }

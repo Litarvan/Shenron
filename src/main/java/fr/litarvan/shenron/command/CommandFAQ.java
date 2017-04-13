@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandFAQ implements CommandHandler
 {
@@ -16,40 +17,39 @@ public class CommandFAQ implements CommandHandler
     private ConfigProvider config;
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args)
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args)
     {
         String link = config.at("support.faq");
 
         if (!args.containsKey("target") || config.at("support.admins." + context.getUser().getId()) == null)
         {
-            context.getChannel().sendMessage("FAQ : " + link).queue();
+            context.sendMessage("FAQ : " + link);
             return;
         }
 
-        Guild guild = context.getChannel().getGuild();
-        Member member = guild.getMember(args.get("target").getAsUser());
+        Member member = context.getGuild().getMember(args.get("target").getAsUser());
 
-        context.getChannel().sendMessage(config.at("support.message"), member.getUser().getAsMention(), link).queue();
+        context.sendMessage(String.format(config.at("support.message"), member.getUser().getAsMention(), link));
 
-        Role moche = guild.getRolesByName("Pabo", true).get(0);
-        Role hyperMoche = guild.getRolesByName("Hyper Pabo", true).get(0);
-        Role ultraMoche = guild.getRolesByName("Ultra Pabo", true).get(0);
+        Role moche = context.getGuild().getRolesByName("Pabo", true).get(0);
+        Role hyperMoche = context.getGuild().getRolesByName("Hyper Pabo", true).get(0);
+        Role ultraMoche = context.getGuild().getRolesByName("Ultra Pabo", true).get(0);
 
-        if (guild.getMembersWithRoles(ultraMoche).contains(member))
+        if (context.getGuild().getMembersWithRoles(ultraMoche).contains(member))
         {
-            context.getChannel().sendMessage("En plus t'es Ultra Pabo, t'es vraiment le pire des pabo omg").queue();
+            context.sendMessage("En plus t'es Ultra Pabo, t'es vraiment le pire des pabo omg");
         }
-        else if (guild.getMembersWithRoles(hyperMoche).contains(member))
+        else if (context.getGuild().getMembersWithRoles(hyperMoche).contains(member))
         {
-            guild.getController().addRolesToMember(member, ultraMoche).queue();
+            context.getGuild().getController().addRolesToMember(member, ultraMoche).queue();
         }
-        else if (guild.getMembersWithRoles(moche).contains(member))
+        else if (context.getGuild().getMembersWithRoles(moche).contains(member))
         {
-            guild.getController().addRolesToMember(member, hyperMoche).queue();
+            context.getGuild().getController().addRolesToMember(member, hyperMoche).queue();
         }
         else
         {
-            guild.getController().addRolesToMember(member, moche).queue();
+            context.getGuild().getController().addRolesToMember(member, moche).queue();
         }
     }
 }

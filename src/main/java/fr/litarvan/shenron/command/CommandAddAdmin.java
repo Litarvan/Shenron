@@ -7,6 +7,7 @@ import fr.litarvan.krobot.config.ConfigProvider;
 import java.util.Map;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.entities.User;
+import org.jetbrains.annotations.NotNull;
 
 public class CommandAddAdmin implements CommandHandler
 {
@@ -14,12 +15,12 @@ public class CommandAddAdmin implements CommandHandler
     private ConfigProvider config;
 
     @Override
-    public void handle(CommandContext context, Map<String, SuppliedArgument> args)
+    public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args)
     {
         for (User user : args.get("targets").getAsUserList())
         {
             config.get("admins").append(args.get("scope").getAsString(), String[].class, user.getId());
-            context.getChannel().sendMessage("=> Ajouté").queue();
+            context.sendMessage("=> Ajouté");
         }
     }
 }

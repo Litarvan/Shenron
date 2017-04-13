@@ -21,7 +21,7 @@ public class SDDAdminMiddleware implements Middleware
     {
         if (!ArrayUtils.contains(config.at("admins.sdd", String[].class), context.getUser().getId()))
         {
-            context.getChannel().sendMessage(Dialog.error("Non-autorisé", "Seul un administrateur du SDD peut faire ça")).queue();
+            context.sendMessage(Dialog.error("Non-autorisé", "Seul un administrateur du SDD peut faire ça"));
             return false;
         }
 
