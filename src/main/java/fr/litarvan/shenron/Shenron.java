@@ -15,7 +15,10 @@ import fr.litarvan.shenron.middleware.*;
 import javax.inject.Inject;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.hooks.SubscribeEvent;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,7 +45,7 @@ public class Shenron implements IBot
         // Bot initializing
         LOGGER.info("Loading Shenron v" + VERSION);
 
-        jda.addEventListener(Krobot.injector().getInstance(GroupListener.class));
+        jda.addEventListener(this, Krobot.injector().getInstance(GroupListener.class));
 
         // Setting up configs
         configs.from("config/admins.json");
@@ -50,6 +53,7 @@ public class Shenron implements IBot
         configs.from("config/shenron.json");
         configs.from("config/support.json");
         configs.from("config/youtube.json");
+        configs.from("config/triggers.json");
 
         if (!configs.from("config/youtube.json").getFile().exists())
         {
@@ -162,6 +166,25 @@ public class Shenron implements IBot
              .middlewares(AdminMiddleware.class)
              .description("Créé un message avec des réactions permettant de rejoindre des groupes")
              .register();
+    }
+
+    @SubscribeEvent
+    public void onMessage(MessageReceivedEvent event)
+    {
+       for (Trigger trigger : configs.at("triggers.triggers", Trigger[].class))
+       {
+           if (StringUtils.getLevenshteinDistance(trigger.getPhrase().toLowerCase(), event.getMessage().getContent().toLowerCase()) < 5)
+           {
+               event.getChannel().sendMessage(trigger.getImage()).queue();
+
+               if (trigger.getMessage() != null)
+               {
+                   event.getChannel().sendMessage(trigger.getMessage()).queue();
+               }
+
+               return;
+           }
+       }
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException, RateLimitedException
