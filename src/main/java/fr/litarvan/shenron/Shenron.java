@@ -97,6 +97,10 @@ public class Shenron implements IBot
                 .description("Affiche le même 'triggered'")
                 .register();
 
+        commands.make("timer <action:start|stop>", CommandTimer.class)
+                .description("Display an animated emoji timer on this channel")
+                .register();
+
         Command clear = commands.make("clear <amount:number>", CommandClear.class)
                 .description("Supprime le nombre de message donnés à partir du dernier posté")
                 .register();
