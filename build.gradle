@@ -9,6 +9,8 @@ targetCompatibility = 1.8
 
 mainClassName = 'fr.litarvan.shenron.Shenron'
 
+compileJava.options.encoding = 'UTF-8';
+
 repositories {
     jcenter()
 
