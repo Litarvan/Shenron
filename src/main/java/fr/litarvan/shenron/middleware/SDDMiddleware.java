@@ -1,10 +1,10 @@
 package fr.litarvan.shenron.middleware;
 
-import fr.litarvan.krobot.command.Command;
-import fr.litarvan.krobot.command.CommandContext;
-import fr.litarvan.krobot.command.Middleware;
-import fr.litarvan.krobot.command.SuppliedArgument;
-import fr.litarvan.krobot.config.ConfigProvider;
+import org.krobot.command.Command;
+import org.krobot.command.CommandContext;
+import org.krobot.command.Middleware;
+import org.krobot.command.SuppliedArgument;
+import org.krobot.config.ConfigProvider;
 import java.util.Map;
 import javax.inject.Inject;
 

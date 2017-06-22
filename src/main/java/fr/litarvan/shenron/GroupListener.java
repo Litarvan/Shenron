@@ -1,6 +1,6 @@
 package fr.litarvan.shenron;
 
-import fr.litarvan.krobot.config.ConfigProvider;
+import org.krobot.config.ConfigProvider;
 import java.util.List;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.Permission;
@@ -26,17 +26,18 @@ public class GroupListener
             return;
         }
 
-        event.getChannel().getMessageById(event.getMessageId()).queue((message) -> {
-            Role role = getRole(message, event.getReaction());
-            Guild guild = message.getGuild();
+        event.getChannel().getMessageById(event.getMessageId()).queue((message) ->
+                                                                      {
+                                                                          Role role = getRole(message, event.getReaction());
+                                                                          Guild guild = message.getGuild();
 
-            if (role == null)
-            {
-                return;
-            }
+                                                                          if (role == null)
+                                                                          {
+                                                                              return;
+                                                                          }
 
-            guild.getController().addRolesToMember(guild.getMember(event.getUser()), role).queue();
-        });
+                                                                          guild.getController().addRolesToMember(guild.getMember(event.getUser()), role).queue();
+                                                                      });
     }
 
     @SubscribeEvent
@@ -47,17 +48,18 @@ public class GroupListener
             return;
         }
 
-        event.getChannel().getMessageById(event.getMessageId()).queue((message) -> {
-            Role role = getRole(message, event.getReaction());
-            Guild guild = message.getGuild();
+        event.getChannel().getMessageById(event.getMessageId()).queue((message) ->
+                                                                      {
+                                                                          Role role = getRole(message, event.getReaction());
+                                                                          Guild guild = message.getGuild();
 
-            if (role == null)
-            {
-                return;
-            }
+                                                                          if (role == null)
+                                                                          {
+                                                                              return;
+                                                                          }
 
-            guild.getController().removeRolesFromMember(guild.getMember(event.getUser()), role).queue();
-        });
+                                                                          guild.getController().removeRolesFromMember(guild.getMember(event.getUser()), role).queue();
+                                                                      });
     }
 
     private Role getRole(Message message, MessageReaction reaction)

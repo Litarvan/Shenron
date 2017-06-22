@@ -17,7 +17,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
-import fr.litarvan.krobot.config.ConfigProvider;
+import org.krobot.config.ConfigProvider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

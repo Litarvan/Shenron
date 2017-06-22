@@ -1,11 +1,11 @@
 package fr.litarvan.shenron.command.group;
 
-import fr.litarvan.krobot.command.CommandContext;
-import fr.litarvan.krobot.command.CommandHandler;
-import fr.litarvan.krobot.command.SuppliedArgument;
-import fr.litarvan.krobot.config.ConfigProvider;
-import fr.litarvan.krobot.util.Dialog;
-import fr.litarvan.krobot.util.Markdown;
+import org.krobot.command.CommandContext;
+import org.krobot.command.CommandHandler;
+import org.krobot.command.SuppliedArgument;
+import org.krobot.config.ConfigProvider;
+import org.krobot.util.Dialog;
+import org.krobot.util.Markdown;
 import fr.litarvan.shenron.Group;
 import java.util.Map;
 import javax.inject.Inject;

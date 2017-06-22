@@ -1,13 +1,13 @@
 package fr.litarvan.shenron;
 
-import fr.litarvan.krobot.IBot;
-import fr.litarvan.krobot.Krobot;
-import fr.litarvan.krobot.command.Command;
-import fr.litarvan.krobot.command.CommandManager;
-import fr.litarvan.krobot.command.HelpCommand;
-import fr.litarvan.krobot.config.ConfigProvider;
-import fr.litarvan.krobot.util.Dialog;
-import fr.litarvan.krobot.util.Markdown;
+import org.krobot.IBot;
+import org.krobot.Krobot;
+import org.krobot.command.Command;
+import org.krobot.command.CommandManager;
+import org.krobot.command.HelpCommand;
+import org.krobot.config.ConfigProvider;
+import org.krobot.util.Dialog;
+import org.krobot.util.Markdown;
 import fr.litarvan.shenron.command.*;
 import fr.litarvan.shenron.command.group.*;
 import fr.litarvan.shenron.command.music.*;
