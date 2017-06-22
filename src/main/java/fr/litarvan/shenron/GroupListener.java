@@ -3,6 +3,7 @@ package fr.litarvan.shenron;
 import fr.litarvan.krobot.config.ConfigProvider;
 import java.util.List;
 import javax.inject.Inject;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageReaction;
@@ -20,7 +21,7 @@ public class GroupListener
     @SubscribeEvent
     public void onMessageReactionAdd(MessageReactionAddEvent event)
     {
-        if (event.getUser().isBot())
+        if (event.getUser().isBot() || !event.getGuild().getMember(event.getJDA().getSelfUser()).hasPermission(Permission.MESSAGE_READ))
         {
             return;
         }
