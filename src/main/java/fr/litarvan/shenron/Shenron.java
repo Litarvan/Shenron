@@ -101,6 +101,10 @@ public class Shenron implements IBot
                 .description("Display an animated emoji timer on this channel")
                 .register();
 
+        commands.make("add", (context, args) -> context.sendMessage(configs.at("shenron.add-link")))
+                .description("Affiche le lien d'ajout du bot")
+                .register();
+
         Command clear = commands.make("clear <amount:number>", CommandClear.class)
                 .description("Supprime le nombre de message donnés à partir du dernier posté")
                 .register();

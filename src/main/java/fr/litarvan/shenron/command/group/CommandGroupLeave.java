@@ -25,7 +25,15 @@ public class CommandGroupLeave implements CommandHandler
 
         if (group == null)
         {
-            for (Group g : config.at("groups.groups", Group[].class))
+            Group[] groups = config.at("groups." + context.getGuild().getId(), Group[].class);
+
+            if (groups == null)
+            {
+                context.sendMessage(Dialog.warn("Erreur", "Il n'y a pas encore de groupe sur ce serveur"));
+                return;
+            }
+
+            for (Group g : groups)
             {
                 if (g.getChannel() != null && g.getChannel().equalsIgnoreCase(context.getChannel().getName()))
                 {

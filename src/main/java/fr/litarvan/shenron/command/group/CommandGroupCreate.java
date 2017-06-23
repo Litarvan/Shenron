@@ -26,12 +26,17 @@ public class CommandGroupCreate implements CommandHandler
         String name = args.get("name").getAsString();
         String channel = args.containsKey("channel") ? args.get("channel").getAsString().toLowerCase() : name.toLowerCase();
 
-        for (Group group : config.at("groups.groups", Group[].class))
+        Group[] groups = config.at("groups." + context.getGuild().getId(), Group[].class);
+
+        if (groups != null)
         {
-            if (group.getName().equalsIgnoreCase(name))
+            for (Group group : groups)
             {
-                context.sendMessage(Dialog.warn("Erreur", "Un groupe du même nom existe déjà"));
-                return;
+                if (group.getName().equalsIgnoreCase(name))
+                {
+                    context.sendMessage(Dialog.warn("Erreur", "Un groupe du même nom existe déjà"));
+                    return;
+                }
             }
         }
 
@@ -49,7 +54,7 @@ public class CommandGroupCreate implements CommandHandler
         role.getManager().setMentionable(true).queue();
         role.getManagerUpdatable().getNameField().setValue(name).update().queue();
 
-        config.get("groups").append("groups", Group[].class, new Group(name, channel));
+        config.get("groups").append(context.getGuild().getId(), Group[].class, new Group(name, channel));
 
         context.sendMessage(Dialog.info("Succès", "Groupe '" + name + "' créé (channel #" + channel + " )"));
     }

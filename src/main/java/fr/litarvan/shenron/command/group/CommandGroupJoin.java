@@ -22,7 +22,13 @@ public class CommandGroupJoin implements CommandHandler
     public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
         String group = args.get("group").getAsString();
-        Group[] groups = config.at("groups.groups", Group[].class);
+        Group[] groups = config.at("groups." + context.getGuild().getId(), Group[].class);
+
+        if (groups == null)
+        {
+            context.sendMessage(Dialog.warn("Erreur", "Il n'y a pas encore de groupe sur ce serveur"));
+            return;
+        }
 
         boolean exists = false;
 

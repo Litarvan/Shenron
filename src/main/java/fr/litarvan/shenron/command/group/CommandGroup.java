@@ -19,13 +19,23 @@ public class CommandGroup implements CommandHandler
     @Override
     public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
+        context.sendMessage(Dialog.info("[DEBUG] ID de la guilde", context.getGuild().getId()));
+
         StringBuilder message = new StringBuilder();
 
-        for (Group group : config.at("groups.groups", Group[].class))
+        Group[] groups = config.at("groups." + context.getGuild().getId(), Group[].class);
+
+        if (groups == null)
+        {
+            context.sendMessage(Dialog.warn("Erreur", "Il n'y a pas encore de groupe sur ce serveur"));
+            return;
+        }
+
+        for (Group group : groups)
         {
             message.append(" - ").append(group.getName()).append(group.getChannel() != null ? " ( #" + group.getChannel() + " )" : "").append("\n");
         }
 
-        context.sendMessage(Dialog.info(Markdown.underline("Liste de groupes :"), message.toString()));
+        context.sendMessage(Dialog.info(Markdown.underline("Liste des groupes :"), message.toString()));
     }
 }
