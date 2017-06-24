@@ -19,8 +19,6 @@ public class CommandGroup implements CommandHandler
     @Override
     public void handle(@NotNull CommandContext context, @NotNull Map<String, SuppliedArgument> args) throws Exception
     {
-        context.sendMessage(Dialog.info("[DEBUG] ID de la guilde", context.getGuild().getId()));
-
         StringBuilder message = new StringBuilder();
 
         Group[] groups = config.at("groups." + context.getGuild().getId(), Group[].class);
