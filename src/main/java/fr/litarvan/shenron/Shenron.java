@@ -81,9 +81,7 @@ public class Shenron implements IBot
                     .register();
         });
 
-        commands.group().middlewares(SDDMiddleware.class).apply(() -> {
-            group();
-        });
+        group();
 
         commands.make("wr <message>", CommandWordReact.class)
                 .description("Ajoute le message donné sous forme de réaction au dernier message")
