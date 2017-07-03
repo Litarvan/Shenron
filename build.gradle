@@ -9,6 +9,8 @@ targetCompatibility = 1.8
 
 mainClassName = 'fr.litarvan.shenron.Shenron'
 
+compileJava.options.encoding = 'UTF-8';
+
 repositories {
     jcenter()
 
@@ -22,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile 'fr.litarvan.krobot:krobot-framework:2.1.1'
+    compile 'org.krobot:krobot-framework:2.2.0'
     compile 'com.sedmelluq:lavaplayer:1.2.36'
     compile 'net.wytrem:wylog:2.0'
 

@@ -1,10 +1,10 @@
 package fr.litarvan.shenron.command.group;
 
-import fr.litarvan.krobot.command.CommandContext;
-import fr.litarvan.krobot.command.CommandHandler;
-import fr.litarvan.krobot.command.SuppliedArgument;
-import fr.litarvan.krobot.config.ConfigProvider;
-import fr.litarvan.krobot.util.Dialog;
+import org.krobot.command.CommandContext;
+import org.krobot.command.CommandHandler;
+import org.krobot.command.SuppliedArgument;
+import org.krobot.config.ConfigProvider;
+import org.krobot.util.Dialog;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
@@ -25,7 +25,15 @@ public class CommandGroupLeave implements CommandHandler
 
         if (group == null)
         {
-            for (Group g : config.at("groups.groups", Group[].class))
+            Group[] groups = config.at("groups." + context.getGuild().getId(), Group[].class);
+
+            if (groups == null)
+            {
+                context.sendMessage(Dialog.warn("Erreur", "Il n'y a pas encore de groupe sur ce serveur"));
+                return;
+            }
+
+            for (Group g : groups)
             {
                 if (g.getChannel() != null && g.getChannel().equalsIgnoreCase(context.getChannel().getName()))
                 {

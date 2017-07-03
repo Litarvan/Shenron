@@ -1,10 +1,10 @@
 package fr.litarvan.shenron.command.group;
 
-import fr.litarvan.krobot.command.CommandContext;
-import fr.litarvan.krobot.command.CommandHandler;
-import fr.litarvan.krobot.command.SuppliedArgument;
-import fr.litarvan.krobot.config.ConfigProvider;
-import fr.litarvan.krobot.util.Dialog;
+import org.krobot.command.CommandContext;
+import org.krobot.command.CommandHandler;
+import org.krobot.command.SuppliedArgument;
+import org.krobot.config.ConfigProvider;
+import org.krobot.util.Dialog;
 import fr.litarvan.shenron.Group;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +27,17 @@ public class CommandGroupCreate implements CommandHandler
         String name = args.get("name").getAsString();
         String channel = args.containsKey("channel") ? args.get("channel").getAsString().toLowerCase() : name.toLowerCase();
 
-        for (Group group : config.at("groups.groups", Group[].class))
+        Group[] groups = config.at("groups." + context.getGuild().getId(), Group[].class);
+
+        if (groups != null)
         {
-            if (group.getName().equalsIgnoreCase(name))
+            for (Group group : groups)
             {
-                context.sendMessage(Dialog.warn("Erreur", "Un groupe du même nom existe déjà"));
-                return;
+                if (group.getName().equalsIgnoreCase(name))
+                {
+                    context.sendMessage(Dialog.warn("Erreur", "Un groupe du même nom existe déjà"));
+                    return;
+                }
             }
         }
 
@@ -52,7 +57,7 @@ public class CommandGroupCreate implements CommandHandler
         role.getManager().setMentionable(true).queue();
         role.getManagerUpdatable().getNameField().setValue(name).update().queue();
 
-        config.get("groups").append("groups", Group[].class, new Group(name, channel));
+        config.get("groups").append(context.getGuild().getId(), Group[].class, new Group(name, channel));
 
         context.sendMessage(Dialog.info("Succès", "Groupe '" + name + "' créé (channel #" + channel + " )"));
     }

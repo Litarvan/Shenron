@@ -1,10 +1,10 @@
 package fr.litarvan.shenron.command.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import fr.litarvan.krobot.command.CommandContext;
-import fr.litarvan.krobot.command.CommandHandler;
-import fr.litarvan.krobot.command.SuppliedArgument;
-import fr.litarvan.krobot.util.Dialog;
+import org.krobot.command.CommandContext;
+import org.krobot.command.CommandHandler;
+import org.krobot.command.SuppliedArgument;
+import org.krobot.util.Dialog;
 import fr.litarvan.shenron.MusicPlayer;
 import java.util.Map;
 import javax.inject.Inject;

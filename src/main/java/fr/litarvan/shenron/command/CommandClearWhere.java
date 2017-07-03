@@ -1,9 +1,9 @@
 package fr.litarvan.shenron.command;
 
-import fr.litarvan.krobot.command.CommandContext;
-import fr.litarvan.krobot.command.CommandHandler;
-import fr.litarvan.krobot.command.SuppliedArgument;
-import fr.litarvan.krobot.util.Dialog;
+import org.krobot.command.CommandContext;
+import org.krobot.command.CommandHandler;
+import org.krobot.command.SuppliedArgument;
+import org.krobot.util.Dialog;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
