@@ -6,6 +6,7 @@ import fr.litarvan.krobot.command.SuppliedArgument;
 import fr.litarvan.krobot.config.ConfigProvider;
 import fr.litarvan.krobot.util.Dialog;
 import fr.litarvan.shenron.Group;
+import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.Permission;
@@ -37,7 +38,9 @@ public class CommandGroupCreate implements CommandHandler
 
         Role role = context.getGuild().getController().createRole().complete();
 
-        Role member = context.getGuild().getRolesByName("Membre", true).get(0);
+        List<Role> query = context.getGuild().getRolesByName("Membre", true);
+        Role member = query.size() < 1 ? context.getGuild().getPublicRole() : query.get(0);
+
         Channel chan = context.getGuild().getController().createTextChannel(channel).complete();
 
         PermissionOverride perm = chan.createPermissionOverride(member).complete();
