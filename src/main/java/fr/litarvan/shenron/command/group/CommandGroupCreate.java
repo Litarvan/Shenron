@@ -4,6 +4,8 @@ import org.krobot.command.CommandContext;
 import org.krobot.command.CommandHandler;
 import org.krobot.command.SuppliedArgument;
 import org.krobot.config.ConfigProvider;
+import org.krobot.permission.BotRequires;
+import org.krobot.permission.UserRequires;
 import org.krobot.util.Dialog;
 import fr.litarvan.shenron.Group;
 import java.util.List;
@@ -16,6 +18,8 @@ import net.dv8tion.jda.core.entities.PermissionOverride;
 import net.dv8tion.jda.core.entities.Role;
 import org.jetbrains.annotations.NotNull;
 
+@UserRequires({Permission.ADMINISTRATOR})
+@BotRequires({Permission.MANAGE_ROLES, Permission.MANAGE_CHANNEL})
 public class CommandGroupCreate implements CommandHandler
 {
     @Inject

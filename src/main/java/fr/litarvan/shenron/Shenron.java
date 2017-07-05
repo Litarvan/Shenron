@@ -6,7 +6,6 @@ import org.krobot.command.Command;
 import org.krobot.command.CommandManager;
 import org.krobot.command.HelpCommand;
 import org.krobot.config.ConfigProvider;
-import org.krobot.util.Dialog;
 import org.krobot.util.Markdown;
 import fr.litarvan.shenron.command.*;
 import fr.litarvan.shenron.command.group.*;
@@ -108,12 +107,10 @@ public class Shenron implements IBot
                 .register();
 
         clear.sub("before <query> <amount:number>", new CommandClearWhere(false))
-             .middlewares(CanClearMiddleware.class)
              .description("Supprime le nombre de message donné avant un certains message (query correspond à une partie de son contenu, pour le rechercher)")
              .register();
 
         clear.sub("after <query> <amount:number>", new CommandClearWhere(true))
-             .middlewares(CanClearMiddleware.class)
              .description("Supprime le nombre de message donné après un certains message (query correspond à une partie de son contenu, pour le rechercher)")
              .register();
     }
@@ -164,12 +161,10 @@ public class Shenron implements IBot
              .register();
 
         group.sub("create <name> [channel]", CommandGroupCreate.class)
-             .middlewares(AdminMiddleware.class)
              .description("(Admin) Créé un groupe")
              .register();
 
         group.sub("trigger <message> [emote#group...]", CommandGroupTrigger.class)
-             .middlewares(AdminMiddleware.class)
              .description("Créé un message avec des réactions permettant de rejoindre des groupes")
              .register();
     }

@@ -1,9 +1,12 @@
 package fr.litarvan.shenron.command.group;
 
+import net.dv8tion.jda.core.Permission;
 import org.krobot.command.CommandContext;
 import org.krobot.command.CommandHandler;
 import org.krobot.command.SuppliedArgument;
 import org.krobot.config.ConfigProvider;
+import org.krobot.permission.BotRequires;
+import org.krobot.permission.UserRequires;
 import org.krobot.util.Dialog;
 import fr.litarvan.shenron.GroupTrigger;
 import java.util.ArrayList;
@@ -16,6 +19,8 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import fr.litarvan.shenron.Group;
 import org.jetbrains.annotations.NotNull;
 
+@UserRequires({Permission.ADMINISTRATOR})
+@BotRequires({Permission.MESSAGE_MANAGE, Permission.MESSAGE_ADD_REACTION})
 public class CommandGroupTrigger implements CommandHandler
 {
     @Inject

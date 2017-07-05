@@ -1,12 +1,15 @@
 package fr.litarvan.shenron.command;
 
+import net.dv8tion.jda.core.Permission;
 import org.krobot.command.CommandContext;
 import org.krobot.command.CommandHandler;
 import org.krobot.command.SuppliedArgument;
 import java.util.Map;
 import fr.litarvan.shenron.MessageSudo;
 import org.jetbrains.annotations.NotNull;
+import org.krobot.permission.BotRequires;
 
+@BotRequires({Permission.MANAGE_WEBHOOKS})
 public class CommandSimpleLink implements CommandHandler
 {
     private String link;

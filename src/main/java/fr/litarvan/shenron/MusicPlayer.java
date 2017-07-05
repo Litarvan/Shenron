@@ -77,7 +77,7 @@ public class MusicPlayer extends AudioEventAdapter implements AudioLoadResultHan
     {
         VideoListResponse response = youTube.videos().list("snippet,contentDetails")
                                             .setKey(config.at("youtube.api-key"))
-                                            .setId(url.substring(url.lastIndexOf("=") + 1))
+                                            .setId(url.substring(url.lastIndexOf("=") + 1, url.lastIndexOf("=") + 12))
                                             .execute();
         List<Video> videoList = response.getItems();
 

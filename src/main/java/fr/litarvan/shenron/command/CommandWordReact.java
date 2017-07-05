@@ -1,15 +1,16 @@
 package fr.litarvan.shenron.command;
 
+import net.dv8tion.jda.core.Permission;
 import org.krobot.command.CommandContext;
 import org.krobot.command.CommandHandler;
 import org.krobot.command.SuppliedArgument;
 import fr.litarvan.shenron.TextEmoji;
 import java.util.Map;
-import javax.inject.Inject;
-import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Message;
 import org.jetbrains.annotations.NotNull;
+import org.krobot.permission.BotRequires;
 
+@BotRequires({Permission.MESSAGE_ADD_REACTION})
 public class CommandWordReact implements CommandHandler
 {
     @Override

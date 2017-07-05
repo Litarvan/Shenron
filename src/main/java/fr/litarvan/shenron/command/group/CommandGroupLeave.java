@@ -1,9 +1,11 @@
 package fr.litarvan.shenron.command.group;
 
+import net.dv8tion.jda.core.Permission;
 import org.krobot.command.CommandContext;
 import org.krobot.command.CommandHandler;
 import org.krobot.command.SuppliedArgument;
 import org.krobot.config.ConfigProvider;
+import org.krobot.permission.BotRequires;
 import org.krobot.util.Dialog;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import net.dv8tion.jda.core.entities.Role;
 import fr.litarvan.shenron.Group;
 import org.jetbrains.annotations.NotNull;
 
+@BotRequires({Permission.MANAGE_ROLES})
 public class CommandGroupLeave implements CommandHandler
 {
     @Inject

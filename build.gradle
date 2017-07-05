@@ -24,8 +24,8 @@ repositories {
 }
 
 dependencies {
-    compile 'org.krobot:krobot-framework:2.2.0'
-    compile 'com.sedmelluq:lavaplayer:1.2.36'
+    compile 'org.krobot:krobot-framework:2.3.0'
+    compile 'com.sedmelluq:lavaplayer:1.2.42'
     compile 'net.wytrem:wylog:2.0'
 
     compile 'com.google.apis:google-api-services-youtube:v3-rev182-1.22.0'
