@@ -1,5 +1,10 @@
 package fr.litarvan.shenron;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.krobot.IBot;
 import org.krobot.Krobot;
 import org.krobot.command.Command;
@@ -187,14 +192,27 @@ public class Shenron implements IBot
        }
     }
 
-    public static void main(String[] args) throws LoginException, InterruptedException, RateLimitedException
+    public static void main(String[] args) throws LoginException, InterruptedException, RateLimitedException, IOException
     {
-        if (args.length == 0)
+        String token = null;
+        File file = new File("shenron.token");
+
+        if (file.exists())
         {
-            LOGGER.fatal("You need to provide a bot token in argument");
+            token = FileUtils.readFileToString(file, Charset.defaultCharset());
+        }
+
+        if (args.length > 0)
+        {
+            token = args[0];
+        }
+
+        if (token == null)
+        {
+            LOGGER.fatal("You need to provide a bot token in argument or in a shenron.token file");
             System.exit(1);
         }
 
-        Krobot.start(args[0], Shenron.class);
+        Krobot.start(token, Shenron.class);
     }
 }

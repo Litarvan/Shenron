@@ -12,7 +12,9 @@ mainClassName = 'fr.litarvan.shenron.Shenron'
 compileJava.options.encoding = 'UTF-8';
 
 repositories {
-    jcenter()
+    maven {
+        url 'https://jcenter.bintray.com/'
+    }
 
     maven {
         url 'http://krobot-framework.github.io/maven'
@@ -31,4 +33,18 @@ dependencies {
     compile 'com.google.apis:google-api-services-youtube:v3-rev182-1.22.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.20.0'
     compile 'com.google.http-client:google-http-client-jackson2:1.20.0'
+}
+
+task fatjar(type: Jar) {
+    from {
+    	configurations.compile.collect {
+    		it.isDirectory() ? it : zipTree(it)
+    	}
+    }
+    
+    with jar
+
+    manifest {
+        attributes 'Main-Class': 'fr.litarvan.shenron.Shenron'
+    }
 }
