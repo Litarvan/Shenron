@@ -52,7 +52,14 @@ public final class MessageSudo
         if (!hook.execute(jda, new JSONObject(new HashMap<String, Object>()
         {
             {
-                put("username", guild.getMember(user).getNickname());
+                String username = guild.getMember(user).getNickname();
+
+                if (username == null)
+                {
+                    username = user.getName();
+                }
+
+                put("username", username);
                 put("avatar_url", user.getAvatarUrl());
                 put("content", message);
             }
