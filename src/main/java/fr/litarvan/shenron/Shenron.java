@@ -10,6 +10,7 @@ import fr.litarvan.shenron.command.WordReactCommand;
 import fr.litarvan.shenron.group.GroupModule;
 import fr.litarvan.shenron.model.Meme;
 import fr.litarvan.shenron.music.MusicModule;
+import fr.litarvan.shenron.support.SupportModule;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.entities.User;
 import org.krobot.Bot;
