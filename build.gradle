@@ -26,13 +26,13 @@ repositories {
 }
 
 dependencies {
-    compile 'org.krobot:krobot-framework:2.3.2'
-    compile 'com.sedmelluq:lavaplayer:1.2.42'
+    compile 'org.krobot:krobot-framework:3.0.0-ALPHA-04'
+    compile 'com.sedmelluq:lavaplayer:1.2.44'
     compile 'net.wytrem:wylog:2.0'
 
-    compile 'com.google.apis:google-api-services-youtube:v3-rev182-1.22.0'
-    compile 'com.google.oauth-client:google-oauth-client-jetty:1.20.0'
-    compile 'com.google.http-client:google-http-client-jackson2:1.20.0'
+    compile 'com.google.apis:google-api-services-youtube:v3-rev186-1.23.0'
+    compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    compile 'com.google.http-client:google-http-client-jackson2:1.23.0'
 }
 
 task fatjar(type: Jar) {

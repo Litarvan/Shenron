@@ -16,12 +16,40 @@
  * You should have received a copy of the GNU General Public License
  * along with Shenron.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.litarvan.shenron;
+package fr.litarvan.shenron.model;
 
-public class WebhookException extends Exception
+public class Trigger
 {
-    public WebhookException(String action, String channel)
+    private String phrase;
+    private int sensitivity;
+    private String image;
+    private String message;
+
+    public Trigger(String phrase, int sensitivity, String image, String message)
     {
-        super("Error while " + action + " webhook for the bot on channel : " + channel);
+        this.phrase = phrase;
+        this.sensitivity = sensitivity;
+        this.image = image;
+        this.message = message;
+    }
+
+    public String getPhrase()
+    {
+        return phrase;
+    }
+
+    public int getSensitivity()
+    {
+        return sensitivity;
+    }
+
+    public String getImage()
+    {
+        return image;
+    }
+
+    public String getMessage()
+    {
+        return message;
     }
 }

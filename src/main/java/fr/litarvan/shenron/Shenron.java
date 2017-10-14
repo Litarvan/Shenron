@@ -1,240 +1,83 @@
-/*
- * Copyright 2016-2017 Adrien 'Litarvan' Navratil
- *
- * This file is part of Shenron.
- *
- * Shenron is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Shenron is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Shenron.  If not, see <http://www.gnu.org/licenses/>.
- */
 package fr.litarvan.shenron;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.krobot.IBot;
-import org.krobot.Krobot;
-import org.krobot.command.Command;
-import org.krobot.command.CommandManager;
+import fr.litarvan.shenron.command.AddCommand;
+import fr.litarvan.shenron.command.CommandClear;
+import fr.litarvan.shenron.command.CommandClearWhere;
+import fr.litarvan.shenron.command.MemeCommand;
+import fr.litarvan.shenron.command.SudoCommand;
+import fr.litarvan.shenron.command.TimerCommand;
+import fr.litarvan.shenron.command.WordReactCommand;
+import fr.litarvan.shenron.group.GroupModule;
+import fr.litarvan.shenron.model.Meme;
+import fr.litarvan.shenron.music.MusicModule;
+import javax.inject.Inject;
+import net.dv8tion.jda.core.entities.User;
+import org.krobot.Bot;
+import org.krobot.KrobotModule;
+import org.krobot.command.ArgumentMap;
 import org.krobot.command.HelpCommand;
 import org.krobot.config.ConfigProvider;
-import org.krobot.util.Markdown;
-import fr.litarvan.shenron.command.*;
-import fr.litarvan.shenron.command.group.*;
-import fr.litarvan.shenron.command.music.*;
-import fr.litarvan.shenron.middleware.*;
-import javax.inject.Inject;
-import javax.security.auth.login.LoginException;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.hooks.SubscribeEvent;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.krobot.console.ConsoleCommand;
+import org.krobot.module.Include;
+import org.krobot.util.ColoredLogger;
 
-public class Shenron implements IBot
+@Include(
+    imports = {
+        MusicModule.class
+    },
+    commands = {
+        HelpCommand.class,
+        AddCommand.class,
+        WordReactCommand.class,
+        TimerCommand.class,
+        SudoCommand.class
+    }
+)
+@Bot(name = "Shenron", version = Shenron.VERSION, author = "Adrien 'Litarvan' Navratil")
+public class Shenron extends KrobotModule
 {
-    public static final String VERSION = "2.1.0";
-    public static final String TRIGGERED_LINK = "https://www.growtopiagame.com/forums/attachment.php?attachmentid=132753&d=1469397141";
-    public static final String OSEF_LINK = "https://www.youtube.com/watch?v=XoDY9vFAaG8";
-
-    private static final Logger LOGGER = LogManager.getLogger("Shenron");
-
-    @Inject
-    private JDA jda;
-
-    @Inject
-    private CommandManager commands;
+    public static final String VERSION = "1.0.0";
 
     @Inject
     private ConfigProvider configs;
 
     @Override
+    public void preInit()
+    {
+        folder("config/")
+            .configs("groups", "shenron", "sdd", "support", "triggers", "memes")
+            .withDefaultsIn().classpathFolder("/");
+
+        from(GroupModule.class)
+            .asSubsOf("group", "list");
+    }
+
+    @Override
     public void init()
     {
-        // Bot initializing
-        LOGGER.info("Loading Shenron v" + VERSION);
+        prefix(configs.at("shenron.prefix"));
 
-        jda.addEventListener(this, Krobot.injector().getInstance(GroupListener.class));
-
-        // Setting up configs
-        configs.from("config/groups.json");
-        configs.from("config/shenron.json");
-        configs.from("config/support.json");
-        configs.from("config/youtube.json");
-        configs.from("config/triggers.json");
-
-        if (!configs.from("config/youtube.json").getFile().exists())
+        for (Meme meme : configs.at("memes.memes", Meme[].class))
         {
-            LOGGER.fatal("You need to create config/youtube.json file like :\n{\n    \"app-name\": \"your-google-app-name\",\n    \"api-key\": \"your-google-api-key\"\n}");
-            System.exit(1);
+            command(meme.getCommand(), new MemeCommand(meme))
+                .description("Affiche le même '" + meme.getName() + "'");
         }
 
-        // Loading commands
-        commands.group().prefix(configs.at("shenron.prefix")).apply(this::commands);
-
-        LOGGER.info("-> Loaded !");
+        command("clear <amount:number>", CommandClear.class)
+            .description("Supprime le nombre de message donnés à partir du dernier posté")
+            .alias("c")
+            .sub("before <query> <amount:number>", new CommandClearWhere(false))
+                .alias("b")
+                .description("Supprime le nombre de message donné avant un certains message (query correspond à une partie du contenu de ce dernier)")
+                .then()
+            .sub("after <query> <amount:number>", new CommandClearWhere(true))
+                .alias("a")
+                .description("Supprime le nombre de message donné après un certains message (query correspond à une partie du contenu de ce dernier)");
     }
 
-    private void commands()
+    @Override
+    public void postInit()
     {
-        commands.make("help", HelpCommand.class)
-                .description("Affiche la liste des commandes")
-                .register();
 
-        commands.make("add", (context, args) -> context.sendMessage(configs.at("shenron.add-link")))
-                .description("Affiche le lien d'ajout du bot")
-                .register();
-
-        music();
-
-        commands.group().middlewares(SupportMiddleware.class).apply(() -> {
-            commands.make("faq [target:user]", CommandFAQ.class)
-                    .description(Markdown.bold("Support-Launcher only:") + " Affiche le lien de la FAQ (Admin: Si target renseigné, le blame et lui met le grade Pabo suivant)")
-                    .register();
-        });
-
-        group();
-
-        commands.make("wr <message>", CommandWordReact.class)
-                .description("Ajoute le message donné sous forme de réaction au dernier message")
-                .register();
-
-        commands.make("osef", new CommandSimpleLink(OSEF_LINK))
-                .description("Affiche la vidéo 'On s'en bat les couilles'")
-                .register();
-
-        commands.make("triggered", new CommandSimpleLink(TRIGGERED_LINK))
-                .description("Affiche le même 'triggered'")
-                .register();
-
-        commands.make("timer <action:start|stop>", CommandTimer.class)
-                .description("Affiche un timer **animé** en emoji")
-                .register();
-
-        commands.make("sudo <target:user> <message:string...>", CommandSudo.class)
-                .description("Envoi un message en simulant qu'il a été envoyé par un autre utilisateur")
-                .register();
-
-        Command clear = commands.make("clear <amount:number>", CommandClear.class)
-                .description("Supprime le nombre de message donnés à partir du dernier posté")
-                .register();
-
-        clear.sub("before <query> <amount:number>", new CommandClearWhere(false))
-             .description("Supprime le nombre de message donné avant un certains message (query correspond à une partie de son contenu, pour le rechercher)")
-             .register();
-
-        clear.sub("after <query> <amount:number>", new CommandClearWhere(true))
-             .description("Supprime le nombre de message donné après un certains message (query correspond à une partie de son contenu, pour le rechercher)")
-             .register();
-    }
-
-    private void music()
-    {
-        Command music = commands.make("music [action:pause|unpause|next|stop]", CommandMusic.class)
-                                .description("Met pause/Enlève pause/Stop/Passe à la chanson suivante")
-                                .register();
-
-        music.sub("search <query...>", CommandMusicSearch.class)
-             .description("Fait une recherche de 'query' sur YouTube")
-             .register();
-
-        music.sub("play <url>", CommandMusicPlay.class)
-             .description("Joue une musique YouTube depuis un url")
-             .register();
-
-        music.sub("volume [value:number]", CommandMusicVolume.class)
-             .description("Affiche le volume actuel, ou si 'value' est donnée, le modifie")
-             .register();
-
-        music.sub("pop", CommandMusicPop.class)
-             .description("Fait popper Shenron dans le channel vocal où vous êtes")
-             .register();
-
-        music.sub("drop", CommandMusicDrop.class)
-             .description("Fait quitter Shenron du channel vocal")
-             .register();
-
-        music.sub("queue", CommandMusicQueue.class)
-             .description("Affiche la file d'attente des musiques")
-             .register();
-    }
-
-    private void group()
-    {
-        Command group = commands.make("group", CommandGroup.class)
-                                .description("Affiche la liste des groupes")
-                                .register();
-
-        group.sub("join <group>", CommandGroupJoin.class)
-             .description("Vous ajoute dans le groupe donné")
-             .register();
-
-        group.sub("leave [group]", CommandGroupLeave.class)
-             .description("Quitte le groupe donné ou le groupe où le message est envoyé")
-             .register();
-
-        group.sub("create <name> [channel]", CommandGroupCreate.class)
-             .description("(Admin) Créé un groupe")
-             .register();
-
-        group.sub("trigger <message> [emote#group...]", CommandGroupTrigger.class)
-             .description("Créé un message avec des réactions permettant de rejoindre des groupes")
-             .register();
-    }
-
-    @SubscribeEvent
-    public void onMessage(MessageReceivedEvent event)
-    {
-       for (Trigger trigger : configs.at("triggers.triggers", Trigger[].class))
-       {
-           if (StringUtils.getLevenshteinDistance(trigger.getPhrase().toLowerCase(), event.getMessage().getContent().toLowerCase()) < 5)
-           {
-               event.getChannel().sendMessage(trigger.getImage()).queue();
-
-               if (trigger.getMessage() != null)
-               {
-                   event.getChannel().sendMessage(trigger.getMessage()).queue();
-               }
-
-               return;
-           }
-       }
-    }
-
-    public static void main(String[] args) throws LoginException, InterruptedException, RateLimitedException, IOException
-    {
-        String token = null;
-        File file = new File("shenron.token");
-
-        if (file.exists())
-        {
-            token = FileUtils.readFileToString(file, Charset.defaultCharset());
-        }
-
-        if (args.length > 0)
-        {
-            token = args[0];
-        }
-
-        if (token == null)
-        {
-            LOGGER.fatal("You need to provide a bot token in argument or in a shenron.token file");
-            System.exit(1);
-        }
-
-        Krobot.start(token, Shenron.class);
     }
 }

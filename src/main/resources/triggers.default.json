@@ -1,0 +1,15 @@
+{
+  "triggers": [
+    {
+      "phrase": "shenron apparait",
+      "sensitivity": 6,
+      "image": "https://giphy.com/gifs/dragon-ball-z-GCBuPi2YPNcxG",
+      "message": "**UN HUMAIN TEL QUE VOUS N'EST PAS APTE A FAIRE APPARAITRE SHENRON !**"
+    },
+    {
+      "phrase": "albatard",
+      "sensitivity": 3,
+      "image": "https://www.youtube.com/watch?v=AMIrFNHAGyE"
+    }
+  ]
+}

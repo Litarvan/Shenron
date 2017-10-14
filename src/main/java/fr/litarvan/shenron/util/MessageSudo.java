@@ -16,32 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Shenron.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.litarvan.shenron;
+package fr.litarvan.shenron.util;
 
-public class Trigger
+import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
+import org.krobot.util.IconUtils;
+import org.krobot.util.WebhookBuilder;
+
+public final class MessageSudo
 {
-    private String phrase;
-    private String image;
-    private String message;
+    public static final String WEBHOOK_NAME = "Shenron Hook";
+    public static final String WEBHOOK_ICON = "/webhook.png";
 
-    public Trigger(String phrase, String image, String message)
+    public static void send(User user, TextChannel channel, String message)
     {
-        this.phrase = phrase;
-        this.image = image;
-    }
-
-    public String getPhrase()
-    {
-        return phrase;
-    }
-
-    public String getImage()
-    {
-        return image;
-    }
-
-    public String getMessage()
-    {
-        return message;
+        WebhookBuilder
+            .from(WEBHOOK_NAME, channel, IconUtils.readFromClasspath(WEBHOOK_ICON))
+            .setUsername(user.getName())
+            .setAvatarUrl(user.getAvatarUrl())
+            .setContent(message)
+            .execute().queue();
     }
 }
