@@ -1,16 +1,20 @@
 package fr.litarvan.shenron.support;
 
+import java.util.List;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.User;
 import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.KrobotCommand;
 import org.krobot.config.ConfigProvider;
 import org.krobot.permission.BotRequires;
+import org.krobot.runtime.KrobotRuntime;
 
 @Command(value = "faq [target:user]", desc = "Affiche le lien de la FAQ (Admin: Averti un membre)", aliases = "f")
 @BotRequires({Permission.MANAGE_ROLES})
@@ -22,14 +26,14 @@ public class FAQCommand implements CommandHandler
     @Override
     public Object handle(MessageContext context, ArgumentMap args) throws Exception
     {
-        String link = config.at("support.faq");
+        String link = config.at("server.faq");
 
-        if (args.get("target") == null || !context.hasPermission(Permission.ADMINISTRATOR))
+        if (!args.has("target") || !context.hasPermission(Permission.ADMINISTRATOR))
         {
             return "FAQ : " + link;
         }
 
-        context.send(config.at("support.message"), context.mentionCaller(), link);
+        context.send(config.at("server.message"), args.get("target", User.class).getAsMention(), link);
 
         Guild guild = context.getGuild();
         Member member = context.getMember();

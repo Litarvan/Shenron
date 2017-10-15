@@ -1,19 +1,14 @@
 package fr.litarvan.shenron;
 
-import org.krobot.KrobotRunner;
+import org.krobot.Krobot;
 
 public class Main
 {
     public static void main(String[] args)
     {
-        KrobotRunner runner = new KrobotRunner();
-        runner.readTokenFromArgs(args).saveTokenIn(".token");
-
-        if (System.console() == null)
-        {
-            runner.disableStateBar();
-        }
-
-        runner.run(Shenron.class);
+        Krobot.create()
+            .readTokenFromArgs(args)
+            .saveTokenIn(".token")
+            .run(Shenron.class);
     }
 }

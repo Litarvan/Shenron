@@ -18,12 +18,14 @@ public class SupportModule extends KrobotModule
     @Override
     public void preInit()
     {
+        config("config/support.json")
+            .defaultIn().classpath("support.default.json");
     }
 
     @Override
     public void init()
     {
-        when(context -> context.getGuild().getId().equals(configs.at("support.id")))
+        when(context -> !context.getGuild().getId().equals(configs.at("server.id")))
             .disable();
     }
 
