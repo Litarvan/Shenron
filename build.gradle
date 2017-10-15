@@ -45,6 +45,6 @@ task fatjar(type: Jar) {
     with jar
 
     manifest {
-        attributes 'Main-Class': 'fr.litarvan.shenron.Shenron'
+        attributes 'Main-Class': mainClassName
     }
 }
