@@ -26,14 +26,14 @@ public class FAQCommand implements CommandHandler
     @Override
     public Object handle(MessageContext context, ArgumentMap args) throws Exception
     {
-        String link = config.at("server.faq");
+        String link = config.at("support.faq");
 
         if (!args.has("target") || !context.hasPermission(Permission.ADMINISTRATOR))
         {
             return "FAQ : " + link;
         }
 
-        context.send(config.at("server.message"), args.get("target", User.class).getAsMention(), link);
+        context.send(config.at("support.message"), args.get("target", User.class).getAsMention(), link);
 
         Guild guild = context.getGuild();
         Member member = context.getMember();

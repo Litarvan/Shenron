@@ -7,6 +7,7 @@ import fr.litarvan.shenron.model.Meme;
 import fr.litarvan.shenron.music.MusicModule;
 import fr.litarvan.shenron.support.SupportModule;
 import javax.inject.Inject;
+import net.dv8tion.jda.core.entities.Game;
 import org.krobot.Bot;
 import org.krobot.KrobotModule;
 import org.krobot.command.HelpCommand;
@@ -75,5 +76,6 @@ public class Shenron extends KrobotModule
     @Override
     public void postInit()
     {
+        jda().getPresence().setGame(Game.of("/help "));
     }
 }
