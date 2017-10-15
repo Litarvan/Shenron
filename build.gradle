@@ -7,7 +7,7 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-mainClassName = 'fr.litarvan.shenron.Shenron'
+mainClassName = 'fr.litarvan.shenron.Main'
 
 compileJava.options.encoding = 'UTF-8';
 
