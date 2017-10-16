@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Shenron.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.litarvan.shenron.group;
+package fr.litarvan.shenron.sdd;
 
 public class Group
 {

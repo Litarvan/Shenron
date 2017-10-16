@@ -1,16 +1,20 @@
-package fr.litarvan.shenron.group;
+package fr.litarvan.shenron.sdd;
 
+import fr.litarvan.shenron.sdd.command.RegisterCommand;
 import javax.inject.Inject;
 import org.krobot.KrobotModule;
 import org.krobot.config.ConfigProvider;
 import org.krobot.module.Include;
 
 @Include(
+    commands = {
+        RegisterCommand.class
+    },
     listeners = {
         GroupListener.class
     }
 )
-public class GroupModule extends KrobotModule
+public class SDDModule extends KrobotModule
 {
     @Inject
     private ConfigProvider configs;
