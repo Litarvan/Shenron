@@ -113,8 +113,6 @@ public class RegisterCommand implements CommandHandler
         guild.getTextChannelsByName("presentation", true).get(0).sendMessage(presentation).complete();
         guild.getTextChannelsByName("spam-et-discussion", true).get(0).sendMessage(welcome).queue();
 
-        context.getChannel().sendMessage("/clear after Haskell 250").queue();
-
-        return null;
+        return "/clear after Haskell 100";
     }
 }
