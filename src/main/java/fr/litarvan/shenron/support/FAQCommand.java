@@ -36,7 +36,7 @@ public class FAQCommand implements CommandHandler
         context.send(config.at("support.message"), args.get("target", User.class).getAsMention(), link);
 
         Guild guild = context.getGuild();
-        Member member = context.getMember();
+        Member member = guild.getMember(args.get("target", User.class));
 
         Role moche = guild.getRolesByName("Pabo", true).get(0);
         Role hyperMoche = guild.getRolesByName("Hyper Pabo", true).get(0);
