@@ -1,6 +1,8 @@
 package fr.litarvan.shenron.sdd.command;
 
+import fr.litarvan.shenron.util.Interact;
 import java.util.List;
+import java.util.Optional;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
@@ -12,10 +14,12 @@ import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
 import org.krobot.config.ConfigProvider;
+import org.krobot.permission.BotRequires;
 import org.krobot.permission.UserRequires;
 import org.krobot.util.MessageUtils;
 
 @UserRequires({Permission.ADMINISTRATOR})
+@BotRequires({Permission.MANAGE_ROLES, Permission.MESSAGE_MANAGE})
 @Command(value = "register [new-member:user] [presentation-query:string...]", desc = "Ajoute un membre au SDD", aliases = "r")
 public class RegisterCommand implements CommandHandler
 {
@@ -25,40 +29,29 @@ public class RegisterCommand implements CommandHandler
     @Override
     public Object handle(MessageContext context, ArgumentMap args) throws Exception
     {
-        Role member = context.getGuild().getRolesByName("Membre", true).get(0);
+        Role memberRole = context.getGuild().getRolesByName("Membre", true).get(0);
         Role developer = context.getGuild().getRolesByName("Développeur", true).get(0);
 
         Guild guild = context.getGuild();
 
-        Member newMember = args.get("new-member");
+        Member newMember = args.has("new-member") ? guild.getMember(args.get("new-member")) : null;
 
         if (!args.has("new-member"))
         {
-            main:
-            for (Message message : context.getChannel().getHistory().retrievePast(50).complete())
-            {
-                Member m = guild.getMember(message.getAuthor());
-                List<Role> roles = m.getRoles();
+            List<Message> history = context.getChannel().getHistory().retrievePast(50).complete();
+            Optional<Member> member = history
+                .stream()
+                .map(msg -> guild.getMember(msg.getAuthor()))
+                .filter(m -> m.getRoles().stream().noneMatch(r -> r.getId().equals(memberRole.getId())))
+                .findFirst();
 
-                for (Role role : roles)
-                {
-                    if (role.getId().equals(member.getId()))
-                    {
-                        continue main;
-                    }
-                }
-
-                newMember = m;
-                break;
-            }
-
-            if (newMember == null)
+            if (!member.isPresent())
             {
                 return context.warn("Utilisateur introuvable", "Impossible de trouver le membre à ajouter, veuillez le renseigner en argument");
             }
-        }
 
-        context.info("Ajout en cours", "Ajout de " + newMember.getAsMention() + "...");
+            newMember = member.get();
+        }
 
         String presentationMessage;
 
@@ -100,19 +93,30 @@ public class RegisterCommand implements CommandHandler
             presentationMessage = longest;
         }
 
-        guild.getController().addRolesToMember(newMember, member, developer).complete();
+        Member finalNewMember = newMember;
+        Interact.from(context.info("Voulez-vous ajouter '" + newMember.getEffectiveName() + "' ?", presentationMessage))
+                .on(Interact.YES, (c) -> {
+                    context.info("Ajout en cours", "Ajout de " + finalNewMember.getAsMention() + "...");
 
-        String presentation = config.at("sdd.presentation")
-                                    .replace("${user}", newMember.getAsMention())
-                                    .replace("${presentation}", presentationMessage);
+                    guild.getController().addRolesToMember(finalNewMember, memberRole, developer).complete();
 
-        String welcome = config.at("sdd.welcome")
-                               .replace("${user}", newMember.getAsMention())
-                               .replace("${groups}", guild.getTextChannelsByName("groupes", true).get(0).getAsMention());
+                    String presentation = config.at("sdd.presentation")
+                                                .replace("${user}", finalNewMember.getAsMention())
+                                                .replace("${presentation}", presentationMessage);
 
-        guild.getTextChannelsByName("presentation", true).get(0).sendMessage(presentation).complete();
-        guild.getTextChannelsByName("spam-et-discussion", true).get(0).sendMessage(welcome).queue();
+                    String welcome = config.at("sdd.welcome")
+                                           .replace("${user}", finalNewMember.getAsMention())
+                                           .replace("${groups}", guild.getTextChannelsByName("groupes", true).get(0).getAsMention());
 
-        return "/clear after Haskell 100";
+                    guild.getTextChannelsByName("presentation", true).get(0).sendMessage(presentation).complete();
+                    guild.getTextChannelsByName("spam-et-discussion", true).get(0).sendMessage(welcome).queue();
+
+                    context.send("/clear after haskell 100");
+                })
+                .on(Interact.NO, (c) -> {
+                    c.getMessage().delete().queue();
+                });
+
+        return null;
     }
 }
