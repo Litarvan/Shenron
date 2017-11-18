@@ -34,13 +34,6 @@ public class SDDModule extends KrobotModule
     {
         when(context -> !context.getGuild().getId().equals(configs.at("sdd.id")))
             .disable();
-
-        command("test", ((context, args) -> {
-            Interact.from(context.send(Dialog.info("Salut !", "Je possède actuellement un swag énorme")))
-                    .on("✅", c -> context.send("sa marsh yay"));
-
-            return "wala";
-        }));
     }
 
     @Override

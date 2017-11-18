@@ -1,6 +1,5 @@
 package fr.litarvan.shenron.sdd.command;
 
-import fr.litarvan.shenron.util.Interact;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
@@ -16,6 +15,7 @@ import org.krobot.command.CommandHandler;
 import org.krobot.config.ConfigProvider;
 import org.krobot.permission.BotRequires;
 import org.krobot.permission.UserRequires;
+import org.krobot.util.Interact;
 import org.krobot.util.MessageUtils;
 
 @UserRequires({Permission.ADMINISTRATOR})
