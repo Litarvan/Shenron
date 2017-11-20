@@ -7,7 +7,8 @@ import org.krobot.module.Include;
 
 @Include(
     commands = {
-        FAQCommand.class
+        FAQCommand.class,
+        SetupCommand.class
     }
 )
 public class SupportModule extends KrobotModule
@@ -25,8 +26,8 @@ public class SupportModule extends KrobotModule
     @Override
     public void init()
     {
-        when(context -> !context.getGuild().getId().equals(configs.at("support.id")))
-            .disable();
+        // when(context -> !context.getGuild().getId().equals(configs.at("support.id")))
+        //     .disable();
     }
 
     @Override

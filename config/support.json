@@ -1,5 +1,23 @@
 {
   "id": "202348859593195522",
   "faq": "http://support.manercraft.fr/",
-  "message": "%s **La réponse à ton problème se trouve dans la __FAQ__ !**\nCherche bien ;)\n\n**==> %s**"
+  "message": "%s **La réponse à ton problème se trouve dans la __FAQ__ !**\nCherche bien ;)\n\n**==> %s**",
+
+  "channels": {
+    "home": {
+      "name": "accueil",
+      "topic": "Accueil du serveur !",
+      "message": "**Bienvenue sur le serveur de support des tutoriels de création de launcher !**\n\nLe serveur est principalemet géré par un système automatique pour les demandes d'aide. Pour demander de l'aide rendez-vous dans #aidez-moi et suivez les instructions !\nSinon, vous pouvez demande de l'aide librement dans #aide-libre ou discutter de tout et de rien dans #discussion\n\n*Pour rejoindre le serveur, cliquez sur la réaction en dessous de ce message*"
+    },
+    "help": {
+      "name": "aidez-moi",
+      "topic": "Demande de l'aide ici !",
+      "message": "**Comment demande de l'aide**\n\nPour demander de l'aide, postez ici votre demande sous la forme d'un message, en respectant ces conditions :\n    - Envoyez Launcher.java, LauncherPanel.java et LauncherFrame.java sur https://hastebin.com/\n    - Vérifiez que votre problème n'est pas présent sur la FAQ : https://support.maner.fr/\n    - La demande ne doit pas demander de coder à votre place (exemple: \"Tu peux me faire mon  launcher ?\", \"Tu peux me montrer comment faire une auth liée au serveur ?\")\n    - Votre demande doit être en rapport avec le tutoriel et les launcher (pas de demande d'aide au modding par exemple).\n\n*Cliquez sur la réactions sous le message pour pouvoir poster votre demande*"
+    },
+    "dashboard": {
+      "name": "dashboard",
+      "topic": "Ici sont gérées les demandes d'aide en cours !",
+      "message": "**Le dashboard**\n\nIci sont listées les demandes d'aide actuelle. Quand une demande est posée dans #aidez-moi , elle est affichée ici.\n\nL'auteur de la demande peut effectuer différentes actions en cliquant sur les réactions sous le message :\n    - ✅ Quand la demande a été résolue\n    - 🆙 Pour up la demande (toutes les 20m)\n    - 🙃 (Helper uniquement) Quand la demande est résolvable par la FAQ"
+    }
+  }
 }
