@@ -44,7 +44,7 @@ public class SetupCommand implements CommandHandler
         TextChannel helpChannel = getChannel(guild, "help", Permission.MESSAGE_READ);
         TextChannel dashboardChannel = getChannel(guild, "dashboard", Permission.MESSAGE_READ);
 
-        Interact.from(homeChannel.sendMessage(config.at("channels.home.message")), 0L)
+        Interact.from(loadMessage(homeChannel, "home"), 0L)
                 .on(Interact.YES, ctx -> {
                     helpChannel.createPermissionOverride(ctx.getMember())
                             .setAllow(Permission.MESSAGE_READ)
@@ -55,18 +55,44 @@ public class SetupCommand implements CommandHandler
                             .queue();
                 });
 
-        Interact.from(helpChannel.sendMessage(config.at("channels.help.message")), 0)
+        Interact.from(loadMessage(helpChannel, "help"), 0)
                 .on(Interact.YES, ctx -> {
                     helpChannel.getPermissionOverride(ctx.getMember()).getManager()
                             .grant(Permission.MESSAGE_WRITE)
                             .queue();
                 });
 
-        dashboardChannel.sendMessage(config.at("channels.dashboard.message")).queue();
+        loadMessage(dashboardChannel, "dashboard");
 
         message.delete().queue();
 
         return context.info("Terminé", "Système de support redémarré");
+    }
+
+    protected Message loadMessage(TextChannel channel, String id)
+    {
+        String messageId = config.at("channels." + id + ".message.id");
+        String messageContent = config.at("channels." + id + ".message.content");
+
+        Message message = null;
+
+        if (messageId != null)
+        {
+            message = channel.getMessageById(messageId).complete();
+
+            if (!message.getContent().equals(messageContent))
+            {
+                message.editMessage(messageContent).queue();
+            }
+        }
+
+        if (message == null)
+        {
+            message = channel.sendMessage(messageContent).complete();
+            config.set("channels." + id + ".message.id", message.getId());
+        }
+
+        return message;
     }
 
     protected TextChannel getChannel(Guild guild, String id, Permission... denyPermission)
@@ -96,10 +122,5 @@ public class SetupCommand implements CommandHandler
         }
 
         return channel;
-    }
-
-    protected boolean isEmpty(TextChannel channel)
-    {
-        return channel.getHistory().isEmpty();
     }
 }

@@ -1,9 +1,12 @@
 package fr.litarvan.shenron.support;
 
 import javax.inject.Inject;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.TextChannel;
 import org.krobot.KrobotModule;
 import org.krobot.config.ConfigProvider;
 import org.krobot.module.Include;
+import org.krobot.runtime.KrobotRuntime;
 
 @Include(
     commands = {
@@ -14,7 +17,7 @@ import org.krobot.module.Include;
 public class SupportModule extends KrobotModule
 {
     @Inject
-    private ConfigProvider configs;
+    private ConfigProvider config;
 
     @Override
     public void preInit()
@@ -26,12 +29,21 @@ public class SupportModule extends KrobotModule
     @Override
     public void init()
     {
-        // when(context -> !context.getGuild().getId().equals(configs.at("support.id")))
-        //     .disable();
+        when(context -> !context.getGuild().getId().equals(config.at("support.id")))
+            .disable();
     }
 
     @Override
     public void postInit()
     {
+        Guild guild = jda().getGuildById(config.at("support.id"));
+
+        for (TextChannel channel : guild.getTextChannels())
+        {
+            if (channel.getName().contains("private"))
+            {
+                channel.sendMessage(KrobotRuntime.get().getPrefix() + "setup").queue();
+            }
+        }
     }
 }
