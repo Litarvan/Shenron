@@ -1,5 +1,6 @@
 package fr.litarvan.shenron.support;
 
+import fr.litarvan.shenron.support.command.*;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;

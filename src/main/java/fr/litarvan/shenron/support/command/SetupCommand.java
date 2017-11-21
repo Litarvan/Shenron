@@ -1,5 +1,7 @@
-package fr.litarvan.shenron.support;
+package fr.litarvan.shenron.support.command;
 
+import fr.litarvan.shenron.support.SupportEngine;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
@@ -26,11 +28,13 @@ import java.util.List;
 public class SetupCommand implements CommandHandler
 {
     private Config config;
+    private SupportEngine engine;
 
     @Inject
-    public SetupCommand(ConfigProvider config)
+    public SetupCommand(ConfigProvider config, SupportEngine engine)
     {
         this.config = config.get("support");
+        this.engine = engine;
     }
 
     @Override
@@ -63,6 +67,8 @@ public class SetupCommand implements CommandHandler
                 });
 
         loadMessage(dashboardChannel, "dashboard");
+
+        engine.setup(helpChannel, dashboardChannel);
 
         message.delete().queue();
 

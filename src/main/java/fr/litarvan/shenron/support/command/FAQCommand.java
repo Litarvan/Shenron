@@ -1,4 +1,4 @@
-package fr.litarvan.shenron.support;
+package fr.litarvan.shenron.support.command;
 
 import java.util.List;
 import javax.inject.Inject;
