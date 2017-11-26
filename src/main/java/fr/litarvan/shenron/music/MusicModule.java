@@ -25,6 +25,8 @@ public class MusicModule extends KrobotModule
     @Override
     public void preInit()
     {
+        config("config/youtube.json")
+            .defaultIn().classpath("/youtube.default.json");
     }
 
     @Override
