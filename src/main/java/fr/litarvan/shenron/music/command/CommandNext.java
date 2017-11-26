@@ -1,0 +1,18 @@
+package fr.litarvan.shenron.music.command;
+
+import fr.litarvan.shenron.music.MusicPlayer;
+import org.krobot.MessageContext;
+import org.krobot.command.ArgumentMap;
+import org.krobot.command.Command;
+import org.krobot.command.CommandHandler;
+
+@Command(value = "next", desc = "Passe à la chanson suivante", aliases = "n")
+public class CommandNext implements CommandHandler
+{
+    @Override
+    public Object handle(MessageContext context, ArgumentMap args) throws Exception
+    {
+        MusicPlayer.from(context.getGuild()).next();
+        return context.info("Chanson suivante", "Passage à la chanson suivante...");
+    }
+}

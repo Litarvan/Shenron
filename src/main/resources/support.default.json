@@ -1,5 +1,5 @@
 {
-  "id": "247500331070521345",
+  "id": "",
   "faq": "http://support.manercraft.fr/",
   "message": "%s **La réponse à ton problème se trouve dans la __FAQ__ !**\nCherche bien ;)\n\n**\u003d\u003d\u003e %s**",
   "request-count": 0,
@@ -10,6 +10,7 @@
       "topic": "Accueil du serveur !",
       "message": {
         "content": "**Bienvenue sur le serveur de support des tutoriels de création de launcher !**\n\nLe serveur est principalement géré par un système automatique pour les demandes d\u0027aide. Pour demander de l\u0027aide rendez-vous dans #aidez-moi et suivez les instructions !\nSinon, vous pouvez demander de l\u0027aide librement dans #aide-libre ou discuter de tout et de rien dans #discussion\n\n*Pour rejoindre le serveur, cliquez sur la réaction en dessous de ce message*"
+      }
     },
     "help": {
       "name": "aidez-moi",
