@@ -1,5 +1,6 @@
 {
-  "id": "",
+  "enabled": false,
+  "id": "247500331070521345",
   "faq": "http://support.manercraft.fr/",
   "message": "%s **La réponse à ton problème se trouve dans la __FAQ__ !**\nCherche bien ;)\n\n**\u003d\u003d\u003e %s**",
   "request-count": 0,

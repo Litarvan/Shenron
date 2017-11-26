@@ -24,19 +24,27 @@ public class SupportModule extends KrobotModule
     public void preInit()
     {
         config("config/support.json")
-            .defaultIn().classpath("support.default.json");
+            .defaultIn().classpath("/support.default.json");
     }
 
     @Override
     public void init()
     {
-        when(context -> !context.getGuild().getId().equals(config.at("support.id")))
-            .disable();
+        if (config.at("support.enabled", boolean.class))
+        {
+            when(context -> !context.getGuild().getId().equals(config.at("support.id")))
+                .disable();
+        }
     }
 
     @Override
     public void postInit()
     {
+        if (!config.at("support.enabled", boolean.class))
+        {
+            return;
+        }
+
         Guild guild = jda().getGuildById(config.at("support.id"));
 
         for (TextChannel channel : guild.getTextChannels())
