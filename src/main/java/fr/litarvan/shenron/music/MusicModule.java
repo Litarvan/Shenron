@@ -4,7 +4,7 @@ import fr.litarvan.shenron.music.command.CommandDisconnect;
 import fr.litarvan.shenron.music.command.CommandMusic;
 import fr.litarvan.shenron.music.command.CommandNext;
 import fr.litarvan.shenron.music.command.CommandPlay;
-import fr.litarvan.shenron.music.command.CommandQueue;
+import fr.litarvan.shenron.music.command.queue.CommandQueue;
 import fr.litarvan.shenron.music.command.CommandVolume;
 import java.util.concurrent.TimeUnit;
 import org.krobot.KrobotModule;

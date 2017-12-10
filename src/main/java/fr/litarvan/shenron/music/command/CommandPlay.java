@@ -14,8 +14,6 @@ import fr.litarvan.shenron.music.MusicPlayer;
 import java.util.List;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.managers.AudioManager;
 import org.krobot.MessageContext;
@@ -25,10 +23,10 @@ import org.krobot.command.CommandHandler;
 import org.krobot.config.ConfigProvider;
 import org.krobot.util.Dialog;
 
-@Command(value = "play <query...>", desc = "Joue une musique depuis youtube ('query' = recherche / lien(s))", aliases = "p")
+@Command(value = "play <query...>", desc = "Joue une musique depuis youtube ('query' = recherche / lien(s))", aliases = {"p", "play", "paly", "plya", "lpay"}, subs = CommandPlayOnce.class)
 public class CommandPlay implements CommandHandler
 {
-    private YouTube youtube;
+    private static YouTube youtube;
     private ConfigProvider config;
 
     @Inject
@@ -36,7 +34,7 @@ public class CommandPlay implements CommandHandler
     {
         if (config.get("youtube") != null)
         {
-            this.youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), request -> {})
+            youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), request -> {})
                 .setApplicationName(config.at("youtube.app-name")).build();
         }
 
@@ -98,10 +96,7 @@ public class CommandPlay implements CommandHandler
             @Override
             public void trackLoaded(AudioTrack track)
             {
-                context.send(createQueueMessage(track));
-
-                connect(context);
-                player.addToQueue(track);
+                queue(context, player, track);
             }
 
             @Override
@@ -114,10 +109,7 @@ public class CommandPlay implements CommandHandler
                     first = playlist.getTracks().get(0);
                 }
 
-                context.send(createQueueMessage(first));
-
-                connect(context);
-                player.addToQueue(first);
+                queue(context, player, first);
             }
 
             @Override
@@ -132,6 +124,19 @@ public class CommandPlay implements CommandHandler
                 context.error("Erreur", "Impossible de mettre la musique : " + exception.getMessage());
             }
         });
+    }
+
+    protected void queue(MessageContext context, MusicPlayer player, AudioTrack track)
+    {
+        context.send(createQueueMessage(track));
+
+        connect(context);
+        queue(player, track);
+    }
+
+    protected void queue(MusicPlayer player, AudioTrack track)
+    {
+        player.addToQueue(track);
     }
 
     protected void connect(MessageContext context)
@@ -164,5 +169,10 @@ public class CommandPlay implements CommandHandler
         builder.addField("Durée", MusicModule.parseTime(track.getDuration()), false);
 
         return builder;
+    }
+
+    protected YouTube getYoutube()
+    {
+        return youtube;
     }
 }
