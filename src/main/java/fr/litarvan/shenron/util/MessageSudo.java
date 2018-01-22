@@ -26,7 +26,7 @@ import org.krobot.util.WebhookBuilder;
 public final class MessageSudo
 {
     public static final String WEBHOOK_NAME = "Shenron Hook";
-    public static final String WEBHOOK_ICON = "/webhook.png";
+    public static final String WEBHOOK_ICON = "/webhook.jpg";
 
     public static void send(User user, TextChannel channel, String message)
     {

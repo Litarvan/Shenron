@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Shenron.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.litarvan.shenron.sdd;
+package fr.litarvan.shenron.group;
 
 import java.util.List;
 import javax.inject.Inject;

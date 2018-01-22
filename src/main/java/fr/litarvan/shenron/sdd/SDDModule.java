@@ -9,9 +9,6 @@ import org.krobot.module.Include;
 @Include(
     commands = {
         RegisterCommand.class
-    },
-    listeners = {
-        GroupListener.class
     }
 )
 public class SDDModule extends KrobotModule
@@ -22,9 +19,8 @@ public class SDDModule extends KrobotModule
     @Override
     public void preInit()
     {
-        folder("config/")
-            .configs("sdd", "groups")
-            .withDefaultsIn().classpathFolder("/");
+        config("config/sdd.json")
+                .defaultIn().classpath("/sdd.default.json");
     }
 
     @Override
