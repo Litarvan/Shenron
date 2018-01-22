@@ -57,7 +57,7 @@ public class RegisterCommand implements CommandHandler
 
         if (args.has("presentation-query"))
         {
-            String query = args.get("presentation-query");
+            String query = String.join("", args.get("presentation-query", String[].class));
             Message msg = MessageUtils.search(context.getChannel(), query, 100);
 
             if (msg == null)
