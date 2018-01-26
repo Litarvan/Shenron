@@ -131,6 +131,11 @@ public class CommandPlay implements CommandHandler
         context.send(createQueueMessage(track));
 
         connect(context);
+        queue(player, track);
+    }
+
+    protected void queue(MusicPlayer player, AudioTrack track)
+    {
         player.add(track);
     }
 
