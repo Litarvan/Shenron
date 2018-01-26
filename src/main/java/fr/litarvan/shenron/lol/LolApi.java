@@ -51,6 +51,10 @@ public class LolApi
                         after.accept(ctx, finalName);
                     });
         }
+        else
+        {
+            after.accept(context, name);
+        }
     }
 
     public String get(long id)

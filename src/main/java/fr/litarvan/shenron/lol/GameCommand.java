@@ -81,12 +81,6 @@ public class GameCommand implements CommandHandler
                 }
 
                 string += " - " + Markdown.bold(position.getTier() + " " + position.getRank());
-
-                try
-                {
-                    Thread.sleep(200L);
-                }
-                catch (Exception e) {}
             }
 
             string += " - " + participant.getSummonerName();
@@ -99,6 +93,12 @@ public class GameCommand implements CommandHandler
             {
                 redTeam += string + "\n";
             }
+
+            try
+            {
+                Thread.sleep(200L); // Rate limit until project is validated
+            }
+            catch (Exception e) {}
         }
 
         long start = infos.getGameStartTime();
