@@ -23,20 +23,23 @@ public class LolApi
 
     public void apply(MessageContext context, String given, BiConsumer<MessageContext, String> after)
     {
-        String name = get(context.getUser().getIdLong());
+        String name = given;
+        String saved = get(context.getUser().getIdLong());
 
         if (name == null)
         {
-            name = given;
-        }
-        else
-        {
+            name = saved;
+
             if (name == null)
             {
                 context.warn("Erreur", "Veuillez fournir un nom d'utilisateur");
                 return;
             }
 
+            after.accept(context, name);
+        }
+        else if (saved == null)
+        {
             String finalName = name;
             Interact.from(context.info("Retenir ?", "Voulez vous associer le pseudo '" + name + "' à votre compte ?"))
                     .on(Interact.YES, ctx -> {
@@ -48,8 +51,6 @@ public class LolApi
                         after.accept(ctx, finalName);
                     });
         }
-
-        after.accept(context, name);
     }
 
     public String get(long id)
