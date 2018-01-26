@@ -10,7 +10,7 @@ import org.krobot.command.CommandHandler;
 public class CommandQueueMode implements CommandHandler
 {
     @Override
-    public Object handle(MessageContext context, ArgumentMap args) throws Exception
+    public Object handle(MessageContext context, ArgumentMap args)
     {
         boolean conserve = args.get("mode").equals("conserve");
         MusicPlayer.from(context.getGuild()).setConserve(conserve);

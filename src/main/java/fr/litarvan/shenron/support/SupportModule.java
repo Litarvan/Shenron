@@ -30,11 +30,8 @@ public class SupportModule extends KrobotModule
     @Override
     public void init()
     {
-        if (config.at("support.enabled", boolean.class))
-        {
-            when(context -> !context.getGuild().getId().equals(config.at("support.id")))
-                .disable();
-        }
+        when(context -> !context.getGuild().getId().equals(config.at("support.id")))
+            .disable();
     }
 
     @Override

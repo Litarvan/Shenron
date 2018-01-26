@@ -19,25 +19,28 @@ public class MusicPlayer extends AudioEventAdapter
     private static TLongObjectMap<MusicPlayer> players;
 
     private AudioPlayer player;
-    private List<AudioTrack> queue;
-    private List<AudioTrack> once;
+    private List<AudioTrack> playlist;
+    private List<String> once;
 
+    private int current;
     private boolean conserve;
 
     public MusicPlayer(AudioPlayer player)
     {
         this.player = player;
-        this.queue = new ArrayList<>();
+        this.playlist = new ArrayList<>();
         this.once = new ArrayList<>();
 
+        this.current = 0;
         this.player.addListener(this);
+
         this.setVolume(50);
         this.setConserve(true);
     }
 
-    public void addToQueue(AudioTrack track)
+    public void add(AudioTrack track)
     {
-        queue.add(track);
+        playlist.add(track);
         next(true);
     }
 
@@ -45,38 +48,57 @@ public class MusicPlayer extends AudioEventAdapter
     {
         if (!player.startTrack(track, true))
         {
-            queue.add(track);
-            once.add(track);
+            playlist.add(track);
+
+            if (conserve)
+            {
+                once.add(track.getIdentifier());
+            }
         }
     }
 
     public void next(boolean noInterrupt)
     {
-        if (queue.size() == 0)
+        if (playlist.size() == 0)
         {
             return;
         }
 
-        AudioTrack track = queue.remove(0);
-        player.startTrack(track, noInterrupt);
-
-        boolean conserve = this.conserve;
-
-        if (once.contains(track))
-        {
-            conserve = false;
-            once.remove(track);
-        }
+        AudioTrack track;
 
         if (conserve)
         {
-            queue.add(track.makeClone());
+            current++;
+
+            if (current >= playlist.size())
+            {
+                current = 0;
+            }
+
+            track = playlist.get(current);
         }
+        else
+        {
+            track = playlist.remove(0);
+        }
+
+        player.startTrack(track, noInterrupt);
+
+        if (once.contains(track.getIdentifier()))
+        {
+            once.removeIf(t -> t.equals(track.getIdentifier()));
+            playlist.removeIf(t -> t.getIdentifier().equals(track.getIdentifier()));
+        }
+    }
+
+    public void clear()
+    {
+        playlist.clear();
     }
 
     public void stop()
     {
-        queue.clear();
+        playlist.clear();
         player.stopTrack();
     }
 
@@ -96,7 +118,7 @@ public class MusicPlayer extends AudioEventAdapter
 
     public void setVolume(int volume)
     {
-        player.setVolume(Math.min(100, volume) / 3 + 1);
+        player.setVolume(Math.min(150, volume) / 3 + 1);
     }
 
     public void setConserve(boolean conserve)
@@ -109,9 +131,14 @@ public class MusicPlayer extends AudioEventAdapter
         return conserve;
     }
 
-    public List<AudioTrack> getQueue()
+    public int getCurrent()
     {
-        return queue;
+        return current;
+    }
+
+    public List<AudioTrack> getPlaylist()
+    {
+        return playlist;
     }
 
     public AudioPlayer getPlayer()

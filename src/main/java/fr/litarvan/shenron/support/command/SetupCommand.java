@@ -40,6 +40,11 @@ public class SetupCommand implements CommandHandler
     @Override
     public Object handle(MessageContext context, ArgumentMap args) throws Exception
     {
+        if (!this.config.at("support.enabled", boolean.class))
+        {
+            return context.error("Erreur", "Système de support désactivé");
+        }
+
         Guild guild = context.getGuild();
 
         Message message = context.info("Démarrage...", "Setup du système de support...").get();
