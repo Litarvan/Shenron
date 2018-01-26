@@ -14,7 +14,10 @@ public class CommandQueueClear implements CommandHandler
     public Object handle(MessageContext context, ArgumentMap args)
     {
         Interact.from(context.info("Vider la playlist", "Êtes-vous sûr de vouloir vider la playlist ?"))
-                .on(Interact.YES, ctx -> MusicPlayer.from(ctx.getGuild()).clear())
+                .on(Interact.YES, ctx ->  {
+                    MusicPlayer.from(ctx.getGuild()).clear();
+                    ctx.getMessage().delete().queue();
+                })
                 .on(Interact.NO, ctx -> ctx.getMessage().delete().queue());
 
         return null;

@@ -68,21 +68,22 @@ public class MusicPlayer extends AudioEventAdapter
 
         if (conserve)
         {
+            track = playlist.get(current + 1 >= playlist.size() ? 0 : current + 1).makeClone();
+        }
+        else
+        {
+            track = playlist.remove(0).makeClone();
+        }
+
+        if (player.startTrack(track, noInterrupt))
+        {
             current++;
 
             if (current >= playlist.size())
             {
                 current = 0;
             }
-
-            track = playlist.get(current);
         }
-        else
-        {
-            track = playlist.remove(0);
-        }
-
-        player.startTrack(track, noInterrupt);
 
         if (once.contains(track.getIdentifier()))
         {
@@ -118,7 +119,7 @@ public class MusicPlayer extends AudioEventAdapter
 
     public void setVolume(int volume)
     {
-        player.setVolume(Math.min(150, volume) / 3 + 1);
+        player.setVolume(Math.min(125, volume) / 3 + 1);
     }
 
     public void setConserve(boolean conserve)

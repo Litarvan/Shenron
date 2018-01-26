@@ -18,6 +18,9 @@ import org.krobot.module.Include;
         CommandDisconnect.class,
         CommandQueue.class,
         CommandVolume.class
+    },
+    listeners = {
+        DisconnectListener.class
     }
 )
 public class MusicModule extends KrobotModule

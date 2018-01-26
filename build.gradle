@@ -1,5 +1,5 @@
 group 'fr.litarvan.shenron'
-version '3.2.1'
+version '3.3.0'
 
 apply plugin: 'java'
 apply plugin: 'application'
@@ -23,6 +23,10 @@ repositories {
     maven {
         url 'http://wytrem.github.io/maven'
     }
+
+    maven {
+        url 'https://jitpack.io/'
+    }
 }
 
 dependencies {
@@ -33,6 +37,8 @@ dependencies {
     compile 'com.google.apis:google-api-services-youtube:v3-rev186-1.23.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     compile 'com.google.http-client:google-http-client-jackson2:1.23.0'
+
+    compile 'com.github.taycaldwell:riot-api-java:4.0.1'
 }
 
 task fatjar(type: Jar) {
