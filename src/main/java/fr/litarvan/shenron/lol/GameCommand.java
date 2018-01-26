@@ -105,13 +105,13 @@ public class GameCommand implements CommandHandler
         Calendar startCal = Calendar.getInstance();
         startCal.setTimeInMillis(start);
 
-        String startString = startCal.get(Calendar.HOUR_OF_DAY) + startCal.get(Calendar.MINUTE) + ":" + startCal.get(Calendar.SECOND);
+        String startString = parseDate(startCal, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.SECOND);
 
         Calendar lengthCal = Calendar.getInstance();
         lengthCal.set(Calendar.SECOND, (int) infos.getGameLength());
 
         String title = "Partie en cours de '" + name + "' ";
-        title += Markdown.bold("[" + startCal.get(Calendar.MINUTE) + ":" + startCal.get(Calendar.SECOND) + "]");
+        title += Markdown.bold("[" + parseDate(lengthCal, Calendar.MINUTE, Calendar.SECOND) + "]");
         title += " depuis " + startString + "";
 
         context.send(new EmbedBuilder()
@@ -120,5 +120,29 @@ public class GameCommand implements CommandHandler
                          .setImage(Dialog.INFO_ICON)
                          .addField("Équipe bleue", blueTeam, false)
                          .addField("Équipe rouge", redTeam, false));
+    }
+
+    protected String parseDate(Calendar calendar, int... fields)
+    {
+        String result = "";
+
+        for (int i = 0; i < fields.length; i++)
+        {
+            String string = String.valueOf(calendar.get(fields[i]));
+
+            if (string.length() == 1)
+            {
+                string = "0" + string;
+            }
+
+            result += string;
+
+            if (i + 1 < fields.length)
+            {
+                result += ":";
+            }
+        }
+
+        return result;
     }
 }
