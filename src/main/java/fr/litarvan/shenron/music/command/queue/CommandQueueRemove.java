@@ -14,7 +14,7 @@ public class CommandQueueRemove implements CommandHandler
     @Override
     public Object handle(MessageContext context, ArgumentMap args) throws Exception
     {
-        List<AudioTrack> tracks = MusicPlayer.from(context.getGuild()).getQueue();
+        List<AudioTrack> tracks = MusicPlayer.from(context.getGuild()).getPlaylist();
         int entry = args.get("entry");
 
         if (entry > tracks.size())
