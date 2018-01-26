@@ -1,0 +1,5 @@
+{
+  "id": "186941943941562369",
+  "presentation": "Bienvenue à ${user} !\n\n${presentation}",
+  "welcome": "Bouh ${user} !\n\nBienvenue sur le SDD ! Tu peux rejoindre les différents groupes en cliquant sur les réactions dans ${groups}, ceux-ci te donneront accès à des channels dédiés. Pas besoin d'être bon dans un langage pour rejoindre son groupe, il suffit seulement de t'y intéresser, tu peux le quitter simplement en enlevant ta réaction !"
+}

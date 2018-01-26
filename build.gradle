@@ -1,5 +1,5 @@
 group 'fr.litarvan.shenron'
-version '2.1.0'
+version '3.3.0'
 
 apply plugin: 'java'
 apply plugin: 'application'
@@ -7,7 +7,7 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-mainClassName = 'fr.litarvan.shenron.Shenron'
+mainClassName = 'fr.litarvan.shenron.Main'
 
 compileJava.options.encoding = 'UTF-8';
 
@@ -23,16 +23,22 @@ repositories {
     maven {
         url 'http://wytrem.github.io/maven'
     }
+
+    maven {
+        url 'https://jitpack.io/'
+    }
 }
 
 dependencies {
-    compile 'org.krobot:krobot-framework:2.3.2'
-    compile 'com.sedmelluq:lavaplayer:1.2.42'
+    compile 'org.krobot:krobot-framework:3.0.0-ALPHA-06'
+    compile 'com.sedmelluq:lavaplayer:1.2.44'
     compile 'net.wytrem:wylog:2.0'
 
-    compile 'com.google.apis:google-api-services-youtube:v3-rev182-1.22.0'
-    compile 'com.google.oauth-client:google-oauth-client-jetty:1.20.0'
-    compile 'com.google.http-client:google-http-client-jackson2:1.20.0'
+    compile 'com.google.apis:google-api-services-youtube:v3-rev186-1.23.0'
+    compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    compile 'com.google.http-client:google-http-client-jackson2:1.23.0'
+
+    compile 'com.github.taycaldwell:riot-api-java:4.0.1'
 }
 
 task fatjar(type: Jar) {
@@ -45,6 +51,6 @@ task fatjar(type: Jar) {
     with jar
 
     manifest {
-        attributes 'Main-Class': 'fr.litarvan.shenron.Shenron'
+        attributes 'Main-Class': mainClassName
     }
 }

@@ -2,4 +2,9 @@
 .idea/
 build/
 config/youtube.json
+config/support.json
+config/lol.json
 shenron.token
+*.iml
+out/
+logs/

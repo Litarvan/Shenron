@@ -1,5 +1,5 @@
 {
-  "groups": [
+  "186941943941562369": [
     {
       "name": "Java",
       "channel": "java"
@@ -77,6 +77,18 @@
     {
       "name": "Pervers",
       "channel": "nsfw"
+    },
+    {
+      "name": "Android",
+      "channel": "android"
+    },
+    {
+      "name": "Entrepreneur",
+      "channel": "entrepreneur"
+    },
+    {
+      "name": "CSharp",
+      "channel": "csharp"
     }
   ],
   "triggers": [
@@ -234,6 +246,51 @@
         {
           "left": "290568662786637824",
           "right": "Linux"
+        }
+      ]
+    },
+    {
+      "messageId": "315572821365489665",
+      "groups": [
+        {
+          "left": "290567945271115786",
+          "right": "Arduino"
+        }
+      ]
+    },
+    {
+      "messageId": "315572954295566347",
+      "groups": [
+        {
+          "left": "290567945271115786",
+          "right": "Arduino"
+        }
+      ]
+    },
+    {
+      "messageId": "326807192915148802",
+      "groups": [
+        {
+          "left": "326804865743323136",
+          "right": "Android"
+        }
+      ]
+    },
+    {
+      "messageId": "329668589793705984",
+      "groups": [
+        {
+          "left": "329668018558861312",
+          "right": "entrepreneur"
+        }
+      ]
+    },
+    {
+      "messageId": "334804857577799680",
+      "groups": [
+        {
+          "left": "334804567017521162",
+          "right": "csharp"
         }
       ]
     }
