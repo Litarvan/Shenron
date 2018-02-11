@@ -111,7 +111,7 @@ public class GameCommand implements CommandHandler
         lengthCal.set(Calendar.SECOND, (int) infos.getGameLength());
 
         String title = "Partie en cours de '" + name + "' ";
-        title += Markdown.bold("[" + parseDate(lengthCal, Calendar.MINUTE, Calendar.SECOND) + "]");
+        title += Markdown.bold("[" + parseDate(lengthCal, Calendar.SECOND, Calendar.MINUTE) + "]");
         title += " depuis " + startString + "";
 
         context.send(new EmbedBuilder()
