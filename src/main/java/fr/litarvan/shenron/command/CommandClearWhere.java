@@ -2,13 +2,19 @@ package fr.litarvan.shenron.command;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageHistory;
 import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.CommandHandler;
+import org.krobot.permission.BotRequires;
+import org.krobot.permission.UserRequires;
 import org.krobot.util.MessageUtils;
 
+@UserRequires({ Permission.MESSAGE_MANAGE })
+@BotRequires({ Permission.MESSAGE_MANAGE })
 public class CommandClearWhere implements CommandHandler
 {
     private boolean after;
