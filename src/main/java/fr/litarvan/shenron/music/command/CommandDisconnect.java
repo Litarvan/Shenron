@@ -8,7 +8,7 @@ import org.krobot.command.CommandHandler;
 import org.krobot.command.NoTyping;
 
 @NoTyping
-@Command(value = "disconnect", desc = "Déconnecte le bot du channel vocal")
+@Command(value = "disconnect", desc = "Déconnecte le bot du channel vocal", aliases = "d")
 public class CommandDisconnect implements CommandHandler
 {
     @Override

@@ -3,7 +3,6 @@ package fr.litarvan.shenron;
 import fr.litarvan.shenron.command.*;
 import fr.litarvan.shenron.event.TriggerListener;
 import fr.litarvan.shenron.group.GroupModule;
-import fr.litarvan.shenron.lol.LolModule;
 import fr.litarvan.shenron.sdd.SDDModule;
 import fr.litarvan.shenron.model.Meme;
 import fr.litarvan.shenron.music.MusicModule;
@@ -21,8 +20,7 @@ import org.krobot.module.Include;
         MusicModule.class,
         SupportModule.class,
         SDDModule.class,
-        GroupModule.class,
-        LolModule.class
+        GroupModule.class
     },
     commands = {
         HelpCommand.class,
@@ -38,7 +36,7 @@ import org.krobot.module.Include;
 @Bot(name = "Shenron", version = Shenron.VERSION, author = "Adrien 'Litarvan' Navratil")
 public class Shenron extends KrobotModule
 {
-    public static final String VERSION = "3.3.0";
+    public static final String VERSION = "3.4.0";
 
     @Inject
     private ConfigProvider configs;

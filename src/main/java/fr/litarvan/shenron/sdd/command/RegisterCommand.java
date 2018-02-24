@@ -53,6 +53,11 @@ public class RegisterCommand implements CommandHandler
             newMember = member.get();
         }
 
+        if (newMember == null)
+        {
+            return context.warn("Utilisateur introuvable", "Impossible de trouver cet utilisateur");
+        }
+
         String presentationMessage;
 
         if (args.has("presentation-query"))

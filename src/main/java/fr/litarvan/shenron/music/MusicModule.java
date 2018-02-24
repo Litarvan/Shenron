@@ -3,6 +3,7 @@ package fr.litarvan.shenron.music;
 import fr.litarvan.shenron.music.command.CommandDisconnect;
 import fr.litarvan.shenron.music.command.CommandMusic;
 import fr.litarvan.shenron.music.command.CommandNext;
+import fr.litarvan.shenron.music.command.CommandPause;
 import fr.litarvan.shenron.music.command.CommandPlay;
 import fr.litarvan.shenron.music.command.queue.CommandQueue;
 import fr.litarvan.shenron.music.command.CommandVolume;
@@ -17,7 +18,8 @@ import org.krobot.module.Include;
         CommandNext.class,
         CommandDisconnect.class,
         CommandQueue.class,
-        CommandVolume.class
+        CommandVolume.class,
+        CommandPause.class
     },
     listeners = {
         DisconnectListener.class
