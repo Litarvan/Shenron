@@ -113,7 +113,7 @@ public class RegisterCommand implements CommandHandler
                                            .replace("${user}", finalNewMember.getAsMention())
                                            .replace("${groups}", guild.getTextChannelsByName("groupes", true).get(0).getAsMention());
 
-                    guild.getTextChannelsByName("presentation", true).get(0).sendMessage(presentation).complete();
+                    guild.getTextChannelsByName("présentation", true).get(0).sendMessage(presentation).complete();
                     guild.getTextChannelsByName("spam-et-discussion", true).get(0).sendMessage(welcome).queue();
 
                     context.send("/clear after haskell 100");
