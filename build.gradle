@@ -9,7 +9,7 @@ targetCompatibility = 1.8
 
 mainClassName = 'fr.litarvan.shenron.Main'
 
-compileJava.options.encoding = 'UTF-8';
+compileJava.options.encoding = "UTF-8";
 
 repositories {
     maven {
