@@ -25,20 +25,19 @@ repositories {
     }
 
     maven {
-        url 'https://jitpack.io/'
+        url 'http://paladin-framework.github.io/maven'
     }
 }
 
 dependencies {
     compile 'org.krobot:krobot-framework:3.0.0-ALPHA-06'
+    compile 'fr.litarvan.paladin:paladin-framework:0.0.3'
     compile 'com.sedmelluq:lavaplayer:1.2.47'
     compile 'net.wytrem:wylog:2.0'
 
     compile 'com.google.apis:google-api-services-youtube:v3-rev186-1.23.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     compile 'com.google.http-client:google-http-client-jackson2:1.23.0'
-
-    compile 'com.github.taycaldwell:riot-api-java:4.0.1'
 }
 
 task fatjar(type: Jar) {

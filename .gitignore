@@ -8,3 +8,5 @@ shenron.token
 *.iml
 out/
 logs/
+web/
+!web/.gitkeep

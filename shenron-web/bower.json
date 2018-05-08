@@ -1,0 +1,22 @@
+{
+  "name": "shenron-web",
+  "description": "Shenron web UI",
+  "main": "",
+  "authors": [
+    "Adrien 'Litarvan' Navratil <adrien1975@live.fr>"
+  ],
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/Litarvan/shenron",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.6.0",
+    "vaadin": "^10.0.0-beta9"
+  }
+}

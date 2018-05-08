@@ -7,6 +7,7 @@ import fr.litarvan.shenron.sdd.SDDModule;
 import fr.litarvan.shenron.model.Meme;
 import fr.litarvan.shenron.music.MusicModule;
 import fr.litarvan.shenron.support.SupportModule;
+import fr.litarvan.shenron.web.ShenronWebModule;
 import javax.inject.Inject;
 import net.dv8tion.jda.core.entities.Game;
 import org.krobot.Bot;
@@ -20,7 +21,8 @@ import org.krobot.module.Include;
         MusicModule.class,
         SupportModule.class,
         SDDModule.class,
-        GroupModule.class
+        GroupModule.class,
+        ShenronWebModule.class
     },
     commands = {
         HelpCommand.class,

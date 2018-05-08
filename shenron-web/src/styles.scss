@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  font-family: var(--lumo-font-family);
+}
+
+.card {
+  border-radius: var(--lumo-border-radius);
+  box-shadow: 0 0 0 1px var(--lumo-shade-5pct), var(--lumo-box-shadow-s);
+  padding: 10px;
+  margin: 10px;
+  display: inline-block;
+}
+
+
+.router-content > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+#main-content > * {
+  top: 75px;
+  left: 45px;
+  height: calc(100vh - 75px);
+}
