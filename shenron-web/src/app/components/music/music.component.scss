@@ -1,0 +1,32 @@
+#playlist {
+  display: inline-block;
+  background: white;
+  height: calc(100vh - 48px);
+  width: 25%;
+  border-right: solid 1px #ddd;
+}
+
+.music {
+  border-bottom: solid 1px #ddd;
+  height: 61px;
+}
+
+.music-time {
+  color: #bbb;
+}
+
+.music-info {
+  padding: 8px;
+  float: left;
+  width: calc(100% - 16px - 31px);
+}
+
+.music-info, .music-delete {
+  display: inline-block;
+}
+
+.music-delete {
+  border-left: solid 1px #ddd;
+  width: 30px;
+  height: 61px;
+}
