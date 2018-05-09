@@ -1,14 +1,20 @@
+$playlist-width: 25%;
+$music-height: 60px;
+$music-padding: 10px;
+$delete-size: 45px;
+$border-size: 1px;
+
 #playlist {
   display: inline-block;
   background: white;
-  height: calc(100vh - 48px);
-  width: 25%;
-  border-right: solid 1px #ddd;
+  height: calc(100vh - 48px - #{$border-size});
+  width: $playlist-width;
+  border-right: solid $border-size #ddd;
 }
 
 .music {
   border-bottom: solid 1px #ddd;
-  height: 61px;
+  height: $music-height;
 }
 
 .music-time {
@@ -16,9 +22,10 @@
 }
 
 .music-info {
-  padding: 8px;
+  padding: $music-padding;
+  padding-right: 0;
   float: left;
-  width: calc(100% - 16px - 31px);
+  width: calc(100% - #{$music-padding} - #{$delete-size});
 }
 
 .music-info, .music-delete {
@@ -26,7 +33,7 @@
 }
 
 .music-delete {
-  border-left: solid 1px #ddd;
-  width: 30px;
-  height: 61px;
+  border-left: solid $border-size #ddd;
+  width: calc(#{$delete-size} - #{$border-size});
+  height: $music-height;
 }
