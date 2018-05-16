@@ -9,4 +9,5 @@ shenron.token
 out/
 logs/
 web/
+!src/main/java/fr/litarvan/shenron/web
 !web/.gitkeep
