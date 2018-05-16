@@ -1,8 +1,14 @@
 $playlist-width: 25%;
-$music-height: 60px;
+$music-height: 62px;
 $music-padding: 10px;
 $delete-size: 45px;
 $border-size: 1px;
+$text-size: 21px;
+$delete-icon-size: 24px;
+
+
+$delete-margin: calc((#{$music-height} - #{$delete-icon-size}) / 2);
+$delete-margin-side: calc((#{$delete-size} - #{$delete-icon-size}) / 2);
 
 #playlist {
   display: inline-block;
@@ -21,6 +27,10 @@ $border-size: 1px;
   color: #bbb;
 }
 
+.music-time, .music-title {
+  height: $text-size;
+}
+
 .music-info {
   padding: $music-padding;
   padding-right: 0;
@@ -28,7 +38,7 @@ $border-size: 1px;
   width: calc(100% - #{$music-padding} - #{$delete-size});
 }
 
-.music-info, .music-delete {
+.music-move, .music-info, .music-delete {
   display: inline-block;
 }
 
@@ -36,4 +46,9 @@ $border-size: 1px;
   border-left: solid $border-size #ddd;
   width: calc(#{$delete-size} - #{$border-size});
   height: $music-height;
+}
+
+.delete-icon {
+  margin: $delete-margin $delete-margin-side;
+  color: rgb(210, 0, 0);
 }
