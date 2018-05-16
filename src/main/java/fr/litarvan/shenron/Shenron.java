@@ -22,7 +22,7 @@ import org.krobot.module.Include;
         SupportModule.class,
         SDDModule.class,
         GroupModule.class,
-        ShenronWebModule.class
+        // ShenronWebModule.class
     },
     commands = {
         HelpCommand.class,
