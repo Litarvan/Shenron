@@ -20,18 +20,24 @@ public class TriggerListener
     @SubscribeEvent
     public void onMessage(MessageReceivedEvent event)
     {
-        for (Trigger trigger : configs.at("triggers.triggers", Trigger[].class))
-        {
-            if (StringUtils.getLevenshteinDistance(trigger.getPhrase().toLowerCase(), event.getMessage().getContent().toLowerCase()) < trigger.getSensitivity())
+        
+        if(event.getMessage().getContent().toLowerCase().indexOf("gratuit") != -1 || event.getMessage().getContent().toLowerCase().indexOf("gratis") != -1 || event.getMessage().getContent().toLowerCase().indexOf("free") != -1){
+            event.getGuild().getController().kick(event.getAuthor()).queue();
+            return;
+        }else{
+            for (Trigger trigger : configs.at("triggers.triggers", Trigger[].class))
             {
-                event.getChannel().sendMessage(trigger.getImage()).queue();
-
-                if (trigger.getMessage() != null)
+                if (StringUtils.getLevenshteinDistance(trigger.getPhrase().toLowerCase(), event.getMessage().getContent().toLowerCase()) < trigger.getSensitivity())
                 {
-                    event.getChannel().sendMessage(trigger.getMessage()).queue();
-                }
+                    event.getChannel().sendMessage(trigger.getImage()).queue();
 
-                return;
+                    if (trigger.getMessage() != null)
+                    {
+                        event.getChannel().sendMessage(trigger.getMessage()).queue();
+                    }
+
+                    return;
+                }
             }
         }
     }
