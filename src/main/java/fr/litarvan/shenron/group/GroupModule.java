@@ -1,9 +1,15 @@
 package fr.litarvan.shenron.group;
 
+import fr.litarvan.shenron.group.command.CreateGroupCommand;
+import fr.litarvan.shenron.group.command.GroupTriggerCommand;
 import org.krobot.KrobotModule;
 import org.krobot.module.Include;
 
 @Include(
+    commands = {
+        CreateGroupCommand.class,
+        GroupTriggerCommand.class
+    },
     listeners = {
         GroupListener.class
     }
