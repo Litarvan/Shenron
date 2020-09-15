@@ -1,5 +1,5 @@
 group 'fr.litarvan.shenron'
-version '3.5.0'
+version '3.5.1'
 
 apply plugin: 'java'
 apply plugin: 'application'
@@ -26,26 +26,17 @@ repositories {
 }
 
 dependencies {
-    compile 'org.krobot:krobot-framework:3.0.0-ALPHA-06'
+    implementation 'net.dv8tion:JDA:3.3.0_264'
+    implementation 'javax.inject:javax.inject:1'
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
+    implementation 'com.google.inject:guice:4.2.2'
 
-    compile 'com.sedmelluq:lavaplayer:1.3.20'
-    compile 'net.wytrem:wylog:2.0'
+    implementation 'org.krobot:krobot-framework:3.0.0-ALPHA-06'
 
-    compile 'com.google.apis:google-api-services-youtube:v3-rev186-1.23.0'
-    compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
-    compile 'com.google.http-client:google-http-client-jackson2:1.23.0'
-}
+    implementation 'com.sedmelluq:lavaplayer:1.3.50'
+    implementation 'net.wytrem:wylog:2.0'
 
-task fatjar(type: Jar) {
-    from {
-    	configurations.compile.collect {
-    		it.isDirectory() ? it : zipTree(it)
-    	}
-    }
-    
-    with jar
-
-    manifest {
-        attributes 'Main-Class': mainClassName
-    }
+    implementation 'com.google.apis:google-api-services-youtube:v3-rev186-1.23.0'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    implementation 'com.google.http-client:google-http-client-jackson2:1.23.0'
 }

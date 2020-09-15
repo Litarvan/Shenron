@@ -36,7 +36,7 @@ import org.krobot.module.Include;
 @Bot(name = "Shenron", version = Shenron.VERSION, author = "Adrien 'Litarvan' Navratil")
 public class Shenron extends KrobotModule
 {
-    public static final String VERSION = "3.5.0";
+    public static final String VERSION = "3.5.1";
 
     @Inject
     private ConfigProvider configs;

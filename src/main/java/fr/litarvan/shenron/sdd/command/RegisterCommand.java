@@ -112,6 +112,10 @@ public class RegisterCommand implements CommandHandler
 
         Interact.from(context.info("Voulez-vous ajouter '" + newMember.getEffectiveName() + "' ?", presentationMessage))
                 .on(Interact.YES, (c) -> {
+                    if (!c.getUser().getId().equals(context.getUser().getId())) {
+                        return;
+                    }
+
                     Message message = null;
                     try {
                         message = context.info("Ajout en cours", "Ajout de " + finalNewMember.getAsMention() + "...").get();
@@ -147,6 +151,10 @@ public class RegisterCommand implements CommandHandler
                     }
                 })
                 .on(Interact.NO, (c) -> {
+                    if (!c.getUser().getId().equals(context.getUser().getId())) {
+                        return;
+                    }
+
                     c.getMessage().delete().queue();
                 });
 
