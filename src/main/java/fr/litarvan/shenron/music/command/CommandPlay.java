@@ -13,16 +13,18 @@ import fr.litarvan.shenron.music.MusicModule;
 import fr.litarvan.shenron.music.MusicPlayer;
 import java.util.List;
 import javax.inject.Inject;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.managers.AudioManager;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.managers.AudioManager;
 import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 import org.krobot.config.ConfigProvider;
 import org.krobot.util.Dialog;
 
+@GuildOnly
 @Command(value = "play <query...>", desc = "Joue une musique depuis youtube ('query' = recherche / lien(s))", aliases = {"p", "play", "paly", "plya", "lpay"}, subs = CommandPlayOnce.class)
 public class CommandPlay implements CommandHandler
 {

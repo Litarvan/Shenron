@@ -1,7 +1,7 @@
 package fr.litarvan.shenron.command;
 
 import fr.litarvan.shenron.util.TextEmoji;
-import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.api.entities.Message;
 import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;

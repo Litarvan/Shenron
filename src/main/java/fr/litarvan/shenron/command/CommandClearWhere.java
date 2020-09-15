@@ -2,17 +2,22 @@ package fr.litarvan.shenron.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageHistory;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageHistory;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 import org.krobot.permission.BotRequires;
 import org.krobot.permission.UserRequires;
+import org.krobot.util.Interact;
 import org.krobot.util.MessageUtils;
 
+@GuildOnly
 @UserRequires({ Permission.MESSAGE_MANAGE })
 @BotRequires({ Permission.MESSAGE_MANAGE })
 public class CommandClearWhere implements CommandHandler
@@ -32,7 +37,7 @@ public class CommandClearWhere implements CommandHandler
         List<Message> messages = context.getChannel().getHistory().retrievePast(100).complete();
         messages.remove(0);
 
-        Message from = MessageUtils.search(context.getChannel(), args.get("query"), 500);
+        Message from = MessageUtils.search((TextChannel) context.getChannel(), args.get("query"), 500);
 
         if (from == null)
         {
@@ -40,6 +45,10 @@ public class CommandClearWhere implements CommandHandler
         }
 
         int amount = args.get("amount");
+        if (amount <= 0) {
+            return context.warn("Argument invalide", "Le nombre de message doit être supérieur à 0");
+        }
+
         MessageHistory history = context.getChannel().getHistoryAround(from, amount).complete();
 
         messages = new ArrayList<>();
@@ -51,7 +60,7 @@ public class CommandClearWhere implements CommandHandler
 
             for (Message message : history.getRetrievedHistory())
             {
-                if (!messages.contains(message) && (after ? message.getCreationTime().isAfter(from.getCreationTime()) : message.getCreationTime().isBefore(from.getCreationTime())))
+                if (!messages.contains(message) && (after ? message.getTimeCreated().isAfter(from.getTimeCreated()) : message.getTimeCreated().isBefore(from.getTimeCreated())))
                 {
                     messages.add(message);
                     last = message;
@@ -73,16 +82,36 @@ public class CommandClearWhere implements CommandHandler
             history = context.getChannel().getHistoryAround(last == null ? from : last, toRetrieve > 100 ? 100 : toRetrieve).complete();
         }
 
-        if (messages.size() == 1)
+        String message = "Voulez-vous supprimer " + messages.size() + " message" + (messages.size() > 1 ? "s" : "") + " ?";
+        if (messages.size() > 1)
         {
-            messages.get(0).delete().queue();
-        }
-        else if (messages.size() != 0)
-        {
-            context.getChannel().deleteMessages(messages).queue();
+            String firstContent = messages.get(0).getContentDisplay();
+            String lastContent = messages.get(1).getContentDisplay();
+
+            message += "\n\nDe '" + firstContent.substring(0, Math.min(10, firstContent.length())) + (firstContent.length() > 10 ? "..." : "") + "'";
+            message += "\nÀ '" + lastContent.substring(0, Math.min(10, lastContent.length())) + (lastContent.length() > 10 ? "..." : "") + "'";
         }
 
-        MessageUtils.deleteAfter(context.info("Done", "✅").get(), 1500);
+        List<Message> finalMessages = messages;
+        Interact.from(context.info("Supprimer des messages ?", message).get(), context.getUser())
+                .thenDelete()
+                .on(Interact.YES, c -> {
+                    if (finalMessages.size() == 1)
+                    {
+                        finalMessages.get(0).delete().queue();
+                    }
+                    else if (finalMessages.size() != 0)
+                    {
+                        ((TextChannel) context.getChannel()).deleteMessages(finalMessages).queue();
+                    }
+
+                    try {
+                        MessageUtils.deleteAfter(context.info("Done", "✅").get(), 1500);
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                })
+                .on(Interact.NO, c -> {});
 
         return null;
     }

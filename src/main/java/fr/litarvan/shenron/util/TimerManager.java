@@ -21,16 +21,17 @@ package fr.litarvan.shenron.util;
 import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.requests.RestAction;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.RestAction;
 
 @Singleton
 public class TimerManager
 {
     private Map<String, TimerMessage> timers = new HashMap<>();
 
-    public void start(TextChannel channel)
+    public void start(MessageChannel channel)
     {
         stop(channel);
 
@@ -43,7 +44,7 @@ public class TimerManager
 
             while (message.running)
             {
-                int i = Integer.parseInt(msg.getContent().substring(6, msg.getContent().length() - 1));
+                int i = Integer.parseInt(msg.getContentDisplay().substring(6, msg.getContentDisplay().length() - 1));
 
                 if (i == 12)
                 {
@@ -77,7 +78,7 @@ public class TimerManager
         t.start();
     }
 
-    public void stop(TextChannel channel)
+    public void stop(MessageChannel channel)
     {
         TimerMessage message = timers.get(channel.getId());
 

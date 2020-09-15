@@ -7,7 +7,9 @@ import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 
+@GuildOnly
 @Command(value = "remove <entry:number>", desc = "Supprime une entrée de la file d'attente", aliases = {"r", "remoev", "ermove"})
 public class CommandQueueRemove implements CommandHandler
 {

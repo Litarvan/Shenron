@@ -26,7 +26,7 @@ public class SDDModule extends KrobotModule
     @Override
     public void init()
     {
-        when(context -> !context.getGuild().getId().equals(configs.at("sdd.id")))
+        when(context -> context.getGuild() != null && !context.getGuild().getId().equals(configs.at("sdd.id")))
             .disable();
     }
 

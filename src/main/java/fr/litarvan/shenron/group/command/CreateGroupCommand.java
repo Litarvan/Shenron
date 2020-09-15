@@ -1,15 +1,16 @@
 package fr.litarvan.shenron.group.command;
 
 import fr.litarvan.shenron.group.Group;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Channel;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 import org.krobot.config.Config;
 import org.krobot.config.ConfigProvider;
 import org.krobot.permission.BotRequires;
@@ -17,6 +18,7 @@ import org.krobot.permission.UserRequires;
 
 import javax.inject.Inject;
 
+@GuildOnly
 @UserRequires({ Permission.MANAGE_ROLES })
 @BotRequires({ Permission.MANAGE_ROLES })
 @Command(value = "create-group <name> [channel-name]",  desc = "Créé un groupe et son channel")
@@ -35,8 +37,8 @@ public class CreateGroupCommand implements CommandHandler
         }
 
         Guild guild = context.getGuild();
-        Role role = guild.getController().createRole().setName(name).setMentionable(true).complete();
-        Channel channel = guild.getController().createTextChannel(channelName)
+        Role role = guild.createRole().setName(name).setMentionable(true).complete();
+        MessageChannel channel = guild.createTextChannel(channelName)
                 .addPermissionOverride(guild.getPublicRole(), 0, Permission.getRaw(Permission.MESSAGE_READ))
                 .addPermissionOverride(role, Permission.getRaw(Permission.MESSAGE_READ, Permission.MESSAGE_WRITE), 0)
                 .complete();

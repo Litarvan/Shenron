@@ -6,7 +6,9 @@ import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 
+@GuildOnly
 @Command(value = "volume [value]", desc = "Affiche le volume actuel ou définit le volume", aliases = {"v", "voluem", "vloume"})
 public class CommandVolume implements CommandHandler
 {

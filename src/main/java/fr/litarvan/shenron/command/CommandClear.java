@@ -1,16 +1,21 @@
 package fr.litarvan.shenron.command;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 import org.krobot.permission.BotRequires;
 import org.krobot.permission.UserRequires;
+import org.krobot.util.Interact;
 import org.krobot.util.MessageUtils;
 
+@GuildOnly
 @UserRequires({ Permission.MESSAGE_MANAGE })
 @BotRequires({ Permission.MESSAGE_MANAGE })
 public class CommandClear implements CommandHandler
@@ -22,6 +27,20 @@ public class CommandClear implements CommandHandler
 
         int amount = args.get("amount");
 
+        if (amount <= 0) {
+            return context.warn("Argument invalide", "Le nombre de message doit être supérieur à 0");
+        }
+
+        Interact.from(context.info("Supprimer des messages ?", "Êtes-vous sûr de vouloir supprimer " + amount + " messages ?").get(), context.getUser())
+                .thenDelete()
+                .on(Interact.YES, c -> delete(context, amount))
+                .on(Interact.NO, c -> {});
+
+        return null;
+    }
+
+    private void delete(MessageContext context, int amount)
+    {
         while (amount != 0)
         {
             int toDelete = amount > 100 ? 100 : amount;
@@ -37,14 +56,16 @@ public class CommandClear implements CommandHandler
             }
             else
             {
-                context.getChannel().deleteMessages(messages).queue();
+                ((TextChannel) context.getChannel()).deleteMessages(messages).queue();
             }
 
             amount -= messages.size();
         }
 
-        MessageUtils.deleteAfter(context.info("Done", "✅").get(), 1500);
-
-        return null;
+        try {
+            MessageUtils.deleteAfter(context.info("Done", "✅").get(), 1500);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 }

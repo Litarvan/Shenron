@@ -5,8 +5,10 @@ import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 import org.krobot.util.Interact;
 
+@GuildOnly
 @Command(value = "clear", desc = "Vide la playlist", aliases = "c")
 public class CommandQueueClear implements CommandHandler
 {
@@ -14,11 +16,9 @@ public class CommandQueueClear implements CommandHandler
     public Object handle(MessageContext context, ArgumentMap args)
     {
         Interact.from(context.info("Vider la playlist", "Êtes-vous sûr de vouloir vider la playlist ?"))
-                .on(Interact.YES, ctx ->  {
-                    MusicPlayer.from(ctx.getGuild()).clear();
-                    ctx.getMessage().delete().queue();
-                })
-                .on(Interact.NO, ctx -> ctx.getMessage().delete().queue());
+                .thenDelete()
+                .on(Interact.YES, ctx -> MusicPlayer.from(ctx.getGuild()).clear())
+                .on(Interact.NO, ctx -> {});
 
         return null;
     }

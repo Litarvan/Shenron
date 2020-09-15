@@ -2,11 +2,9 @@ package fr.litarvan.shenron.music.command;
 
 import fr.litarvan.shenron.music.MusicPlayer;
 import org.krobot.MessageContext;
-import org.krobot.command.ArgumentMap;
-import org.krobot.command.Command;
-import org.krobot.command.CommandHandler;
-import org.krobot.command.NoTyping;
+import org.krobot.command.*;
 
+@GuildOnly
 @NoTyping
 @Command(value = "disconnect", desc = "Déconnecte le bot du channel vocal", aliases = "d")
 public class CommandDisconnect implements CommandHandler

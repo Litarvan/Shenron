@@ -6,7 +6,9 @@ import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 
+@GuildOnly
 @Command(value = "pause", desc = "Met en pause ou reprend la musique en cours", aliases = {"pa", "resume", "re"})
 public class CommandPause implements CommandHandler
 {

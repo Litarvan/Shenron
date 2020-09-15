@@ -7,7 +7,9 @@ import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 
+@GuildOnly
 @Command(value = "music", desc = "Affiche les informations de la musique actuelle")
 public class CommandMusic implements CommandHandler
 {

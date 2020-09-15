@@ -6,21 +6,24 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 import org.krobot.config.ConfigProvider;
 import org.krobot.permission.BotRequires;
 import org.krobot.permission.UserRequires;
 import org.krobot.util.Interact;
 import org.krobot.util.MessageUtils;
 
+@GuildOnly
 @UserRequires({ Permission.ADMINISTRATOR })
 @BotRequires({ Permission.MANAGE_ROLES, Permission.MESSAGE_MANAGE })
 @Command(value = "register [new-member:user] [presentation-query:string...]", desc = "Ajoute un membre au SDD", aliases = "r")
@@ -33,10 +36,7 @@ public class RegisterCommand implements CommandHandler
     public Object handle(MessageContext context, ArgumentMap args) throws Exception
     {
         Role memberRole = context.getGuild().getRolesByName("Membre", true).get(0);
-        Role developer = context.getGuild().getRolesByName("Développeur", true).get(0);
-
         Guild guild = context.getGuild();
-
         Member newMember = args.has("new-member") ? guild.getMember(args.get("new-member")) : null;
 
         boolean deleteAfter = true;
@@ -72,14 +72,14 @@ public class RegisterCommand implements CommandHandler
         if (args.has("presentation-query"))
         {
             String query = String.join("", args.get("presentation-query", String[].class));
-            Message msg = MessageUtils.search(context.getChannel(), query, 100);
+            Message msg = MessageUtils.search((TextChannel) context.getChannel(), query, 100);
 
             if (msg == null)
             {
                 return context.warn("Message introuvable", "Impossible de trouver le message de présentation dans les 100 derniers messages avec la recherche '" + query + "'");
             }
 
-            presentationMessage = msg.getContent();
+            presentationMessage = msg.getContentRaw();
         }
         else
         {
@@ -92,9 +92,9 @@ public class RegisterCommand implements CommandHandler
 
                 if (message.getAuthor().getId().equals(newMember.getUser().getId()))
                 {
-                    if (message.getContent().length() >= longest.length())
+                    if (message.getContentRaw().length() >= longest.length())
                     {
-                        longest = message.getContent();
+                        longest = message.getContentRaw();
                     }
                 }
             }
@@ -110,12 +110,9 @@ public class RegisterCommand implements CommandHandler
         Member finalNewMember = newMember;
         boolean finalDeleteAfter = deleteAfter;
 
-        Interact.from(context.info("Voulez-vous ajouter '" + newMember.getEffectiveName() + "' ?", presentationMessage))
+        Interact.from(context.info("Voulez-vous ajouter '" + newMember.getEffectiveName() + "' ?", presentationMessage).get(), context.getUser(), 15000L)
+                .thenDelete()
                 .on(Interact.YES, (c) -> {
-                    if (!c.getUser().getId().equals(context.getUser().getId())) {
-                        return;
-                    }
-
                     Message message = null;
                     try {
                         message = context.info("Ajout en cours", "Ajout de " + finalNewMember.getAsMention() + "...").get();
@@ -126,8 +123,7 @@ public class RegisterCommand implements CommandHandler
                     if (!finalDeleteAfter && message != null) {
                         MessageUtils.deleteAfter(message, 2500);
                     }
-
-                    guild.getController().addRolesToMember(finalNewMember, memberRole, developer).complete();
+                    guild.addRoleToMember(finalNewMember, memberRole).complete();
 
                     String presentation = config.at("sdd.presentation")
                                                 .replace("${user}", finalNewMember.getAsMention())
@@ -150,13 +146,7 @@ public class RegisterCommand implements CommandHandler
                         }
                     }
                 })
-                .on(Interact.NO, (c) -> {
-                    if (!c.getUser().getId().equals(context.getUser().getId())) {
-                        return;
-                    }
-
-                    c.getMessage().delete().queue();
-                });
+                .on(Interact.NO, (c) -> {});
 
         return null;
     }

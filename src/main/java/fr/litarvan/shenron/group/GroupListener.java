@@ -20,14 +20,14 @@ package fr.litarvan.shenron.group;
 
 import java.util.List;
 import javax.inject.Inject;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageReaction;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
-import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
-import net.dv8tion.jda.core.hooks.SubscribeEvent;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageReaction;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
+import net.dv8tion.jda.api.hooks.SubscribeEvent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.krobot.config.ConfigProvider;
 
@@ -44,7 +44,7 @@ public class GroupListener
             return;
         }
 
-        event.getChannel().getMessageById(event.getMessageId()).queue((message) ->
+        event.getChannel().retrieveMessageById(event.getMessageId()).queue((message) ->
         {
             Role role = getRole(message, event.getReaction());
             Guild guild = message.getGuild();
@@ -54,7 +54,7 @@ public class GroupListener
                 return;
             }
 
-            guild.getController().addRolesToMember(guild.getMember(event.getUser()), role).queue();
+            guild.addRoleToMember(guild.getMember(event.getUser()), role).queue();
         });
     }
 
@@ -66,7 +66,7 @@ public class GroupListener
             return;
         }
 
-        event.getChannel().getMessageById(event.getMessageId()).queue((message) ->
+        event.getChannel().retrieveMessageById(event.getMessageId()).queue((message) ->
         {
             Role role = getRole(message, event.getReaction());
             Guild guild = message.getGuild();
@@ -76,7 +76,7 @@ public class GroupListener
                 return;
             }
 
-            guild.getController().removeRolesFromMember(guild.getMember(event.getUser()), role).queue();
+            guild.removeRoleFromMember(guild.getMember(event.getUser()), role).queue();
         });
     }
 
@@ -101,7 +101,7 @@ public class GroupListener
 
         for (Pair<String, String> pair : trigger.getGroups())
         {
-            if (pair.getKey().equals(reaction.getEmote().getId()))
+            if (pair.getKey().equals(reaction.getReactionEmote().getId()))
             {
                 group = pair;
                 break;

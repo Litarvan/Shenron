@@ -7,8 +7,10 @@ import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
+import org.krobot.command.GuildOnly;
 import org.krobot.util.Markdown;
 
+@GuildOnly
 @Command(value = "queue", desc = "Affiche la file d'attente actuelle", aliases = {"q", "quuee", "queeu", "uqueue"}, subs = {CommandQueueMode.class, CommandQueueRemove.class, CommandQueueClear.class})
 public class CommandQueue implements CommandHandler
 {

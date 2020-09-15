@@ -18,8 +18,8 @@
  */
 package fr.litarvan.shenron.util;
 
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import org.krobot.util.IconUtils;
 import org.krobot.util.WebhookBuilder;
 

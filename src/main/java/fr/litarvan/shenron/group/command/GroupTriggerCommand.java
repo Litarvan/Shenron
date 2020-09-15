@@ -1,9 +1,9 @@
 package fr.litarvan.shenron.group.command;
 
 import fr.litarvan.shenron.group.GroupTrigger;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;

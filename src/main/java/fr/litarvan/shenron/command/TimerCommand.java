@@ -2,6 +2,7 @@ package fr.litarvan.shenron.command;
 
 import fr.litarvan.shenron.util.TimerManager;
 import javax.inject.Inject;
+
 import org.krobot.MessageContext;
 import org.krobot.command.ArgumentMap;
 import org.krobot.command.Command;
