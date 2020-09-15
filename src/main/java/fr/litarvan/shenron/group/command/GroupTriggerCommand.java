@@ -2,6 +2,7 @@ package fr.litarvan.shenron.group.command;
 
 import fr.litarvan.shenron.group.GroupTrigger;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.krobot.MessageContext;
@@ -10,11 +11,13 @@ import org.krobot.command.Command;
 import org.krobot.command.CommandHandler;
 import org.krobot.config.ConfigProvider;
 import org.krobot.runtime.KrobotRuntime;
+import org.krobot.permission.UserRequires;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+@UserRequires({ Permission.MANAGE_ROLES })
 @Command(value = "group-trigger <message> <groups...>", desc = "Envoie un message puis lui ajoute des reactions permettant de rejoindre des groupes. Format de 'groups' : 'groupe|:emoji:'")
 public class GroupTriggerCommand implements CommandHandler
 {

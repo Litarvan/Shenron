@@ -17,7 +17,7 @@ import org.krobot.permission.UserRequires;
 
 import javax.inject.Inject;
 
-//@UserRequires({ Permission.MANAGE_ROLES })
+@UserRequires({ Permission.MANAGE_ROLES })
 @BotRequires({ Permission.MANAGE_ROLES })
 @Command(value = "create-group <name> [channel-name]",  desc = "Créé un groupe et son channel")
 public class CreateGroupCommand implements CommandHandler
