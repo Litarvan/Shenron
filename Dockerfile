@@ -14,7 +14,7 @@ COPY build.gradle gradlew settings.gradle ./
 
 # Building Shenron
 RUN ./gradlew distTar
-RUN tar xf $BUILD_ROOT/bot/build/distributions/shenron-*.tar
+RUN tar xf $BUILD_ROOT/build/distributions/shenron-*.tar
 RUN mkdir -p /tmp/shenron-final
 RUN mv shenron-*/* /tmp/shenron-final
 
