@@ -54,7 +54,7 @@ public class GroupListener
                 return;
             }
 
-            guild.addRoleToMember(guild.retrieveMember(event.retrieveUser().complete()).complete(), role).queue();
+            event.retrieveUser().queue(u -> guild.retrieveMember(u).queue(m -> guild.addRoleToMember(m, role).queue()));
         });
     }
 
@@ -76,7 +76,7 @@ public class GroupListener
                 return;
             }
 
-            guild.removeRoleFromMember(guild.retrieveMember(event.retrieveUser().complete()).complete(), role).queue();
+            event.retrieveUser().queue(u -> guild.retrieveMember(u).queue(m -> guild.removeRoleFromMember(m, role).queue()));
         });
     }
 
