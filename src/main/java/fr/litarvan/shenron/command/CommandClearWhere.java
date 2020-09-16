@@ -1,6 +1,7 @@
 package fr.litarvan.shenron.command;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -89,11 +90,13 @@ public class CommandClearWhere implements CommandHandler
         String message = "Voulez-vous supprimer " + messages.size() + " message" + (messages.size() > 1 ? "s" : "") + " ?";
         if (messages.size() > 1)
         {
-            String firstContent = messages.get(messages.size() - 1).getContentDisplay();
-            String lastContent = messages.get(0).getContentDisplay();
+            messages.sort(Comparator.comparing(Message::getTimeCreated));
 
-            message += "\n\nDe '" + firstContent.substring(0, Math.min(10, firstContent.length())) + (firstContent.length() > 10 ? "..." : "") + "'";
-            message += "\nÀ '" + lastContent.substring(0, Math.min(10, lastContent.length())) + (lastContent.length() > 10 ? "..." : "") + "'";
+            String firstContent = messages.get(0).getContentDisplay();
+            String lastContent = messages.get(messages.size() - 1).getContentDisplay();
+
+            message += "\n\nDe '" + firstContent.substring(0, Math.min(25, firstContent.length())) + (firstContent.length() > 25 ? "..." : "") + "'";
+            message += "\nÀ '" + lastContent.substring(0, Math.min(25, lastContent.length())) + (lastContent.length() > 25 ? "..." : "") + "'";
         }
 
         List<Message> finalMessages = messages;
