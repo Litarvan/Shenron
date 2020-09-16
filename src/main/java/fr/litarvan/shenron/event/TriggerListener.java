@@ -24,7 +24,10 @@ public class TriggerListener
         {
             if (StringUtils.getLevenshteinDistance(trigger.getPhrase().toLowerCase(), event.getMessage().getContentDisplay().toLowerCase()) < trigger.getSensitivity())
             {
-                event.getChannel().sendMessage(trigger.getImage()).queue();
+                if (trigger.getImage() != null)
+                {
+                    event.getChannel().sendMessage(trigger.getImage()).queue();
+                }
 
                 if (trigger.getMessage() != null)
                 {

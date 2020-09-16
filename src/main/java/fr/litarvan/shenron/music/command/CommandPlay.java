@@ -14,6 +14,8 @@ import fr.litarvan.shenron.music.MusicPlayer;
 import java.util.List;
 import javax.inject.Inject;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.krobot.MessageContext;
@@ -46,6 +48,11 @@ public class CommandPlay implements CommandHandler
     @Override
     public Object handle(MessageContext context, ArgumentMap args) throws Exception
     {
+        if (!context.getBotMember().hasPermission((GuildChannel) context.getChannel(), Permission.VOICE_CONNECT, Permission.VOICE_SPEAK))
+        {
+            return context.warn("Erreur", "Le bot n'a pas la permission de voir/parler dans le channel où vous êtes");
+        }
+
         String[] arg = args.get("query");
 
         if (arg.length == 0)
