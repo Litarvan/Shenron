@@ -85,8 +85,8 @@ public class CommandClearWhere implements CommandHandler
         String message = "Voulez-vous supprimer " + messages.size() + " message" + (messages.size() > 1 ? "s" : "") + " ?";
         if (messages.size() > 1)
         {
-            String firstContent = messages.get(0).getContentDisplay();
-            String lastContent = messages.get(1).getContentDisplay();
+            String firstContent = messages.get(messages.size() - 1).getContentDisplay();
+            String lastContent = messages.get(0).getContentDisplay();
 
             message += "\n\nDe '" + firstContent.substring(0, Math.min(10, firstContent.length())) + (firstContent.length() > 10 ? "..." : "") + "'";
             message += "\nÀ '" + lastContent.substring(0, Math.min(10, lastContent.length())) + (lastContent.length() > 10 ? "..." : "") + "'";

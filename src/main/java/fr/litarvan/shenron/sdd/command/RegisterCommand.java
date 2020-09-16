@@ -37,7 +37,7 @@ public class RegisterCommand implements CommandHandler
     {
         Role memberRole = context.getGuild().getRolesByName("Membre", true).get(0);
         Guild guild = context.getGuild();
-        Member newMember = args.has("new-member") ? guild.getMember(args.get("new-member")) : null;
+        Member newMember = args.has("new-member") ? guild.retrieveMember(args.get("new-member")).complete() : null;
 
         boolean deleteAfter = true;
 
@@ -46,7 +46,7 @@ public class RegisterCommand implements CommandHandler
             List<Message> history = context.getChannel().getHistory().retrievePast(50).complete();
             List<Member> members = history
                 .stream()
-                .map(msg -> guild.getMember(msg.getAuthor()))
+                .map(msg -> guild.retrieveMember(msg.getAuthor()).complete())
                 .filter(m -> m.getRoles().stream().noneMatch(r -> r.getId().equals(memberRole.getId())))
                 .collect(Collectors.toList());
 
