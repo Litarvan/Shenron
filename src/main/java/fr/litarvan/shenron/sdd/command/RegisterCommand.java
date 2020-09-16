@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
+
+import fr.litarvan.shenron.command.CommandClearWhere;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -46,8 +48,14 @@ public class RegisterCommand implements CommandHandler
             List<Message> history = context.getChannel().getHistory().retrievePast(50).complete();
             List<Member> members = history
                 .stream()
-                .map(msg -> guild.retrieveMember(msg.getAuthor()).complete())
-                .filter(m -> m.getRoles().stream().noneMatch(r -> r.getId().equals(memberRole.getId())))
+                .map(msg -> {
+                    try {
+                        return guild.retrieveMember(msg.getAuthor()).complete();
+                    } catch (Exception e) {
+                        return null;
+                    }
+                })
+                .filter(m -> m != null && m.getRoles().stream().noneMatch(r -> r.getId().equals(memberRole.getId())))
                 .collect(Collectors.toList());
 
             deleteAfter = members.size() > 1;
@@ -132,7 +140,7 @@ public class RegisterCommand implements CommandHandler
                     guild.getTextChannelById("186941943941562369").sendMessage(welcome).queue();
 
                     if (finalDeleteAfter) {
-                        context.send("/clear after haskell 100");
+                        CommandClearWhere.clearWhere(true, context, 100, "haskell", false);
                     } else {
                         MessageUtils.deleteAfter(context.info("Messages non supprimés", "Messages non supprimés dû à la présence de plusieurs nouveaux membres").join(), 2500);
                     }

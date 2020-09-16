@@ -2,7 +2,7 @@ package fr.litarvan.shenron.command;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
@@ -33,19 +33,23 @@ public class CommandClearWhere implements CommandHandler
     public Object handle(MessageContext context, ArgumentMap args) throws Exception
     {
         context.getMessage().delete().complete();
+        return clearWhere(this.after, context, args.get("amount"), args.get("query"), true);
+    }
 
+    public static Object clearWhere(boolean after, MessageContext context, int amount, String query, boolean confirm)
+    {
         List<Message> messages = context.getChannel().getHistory().retrievePast(100).complete();
         messages.remove(0);
 
-        Message from = MessageUtils.search((TextChannel) context.getChannel(), args.get("query"), 500);
+        Message from = MessageUtils.search((TextChannel) context.getChannel(), query, 500);
 
         if (from == null)
         {
             return context.warn("Erreur", "Impossible de trouver le message");
         }
 
-        int amount = args.get("amount");
-        if (amount <= 0) {
+        if (amount <= 0)
+        {
             return context.warn("Argument invalide", "Le nombre de message doit être supérieur à 0");
         }
 
@@ -93,21 +97,31 @@ public class CommandClearWhere implements CommandHandler
         }
 
         List<Message> finalMessages = messages;
-        Interact.from(context.info("Supprimer des messages ?", message).join(), context.getUser())
-                .thenDelete()
-                .on(Interact.YES, c -> {
-                    if (finalMessages.size() == 1)
-                    {
-                        finalMessages.get(0).delete().queue();
-                    }
-                    else if (finalMessages.size() != 0)
-                    {
-                        ((TextChannel) context.getChannel()).deleteMessages(finalMessages).queue();
-                    }
+        Consumer<MessageContext> apply = c ->
+        {
+            if (finalMessages.size() == 1)
+            {
+                finalMessages.get(0).delete().queue();
+            }
+            else if (finalMessages.size() != 0)
+            {
+                ((TextChannel) context.getChannel()).deleteMessages(finalMessages).queue();
+            }
 
-                    MessageUtils.deleteAfter(context.info("Done", "✅").join(), 1500);
-                })
-                .on(Interact.NO, c -> {});
+            MessageUtils.deleteAfter(context.info("Done", "✅").join(), 1500);
+        };
+
+        if (confirm)
+        {
+            Interact.from(context.info("Supprimer des messages ?", message).join(), context.getUser())
+                    .thenDelete()
+                    .on(Interact.YES, apply)
+                    .on(Interact.NO, c -> {});
+        }
+        else
+        {
+            apply.accept(context);
+        }
 
         return null;
     }
