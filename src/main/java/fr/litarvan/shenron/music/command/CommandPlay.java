@@ -59,7 +59,7 @@ public class CommandPlay implements CommandHandler
         if (!first.startsWith("https://") && !first.startsWith("http://") && youtube != null)
         {
             String query = String.join(" ", arg);
-            Message message = context.info("Recherche", "Recherche en cours de '" + query + "'...").get();
+            Message message = context.info("Recherche", "Recherche en cours de '" + query + "'...").join();
 
             YouTube.Search.List search = youtube.search().list("id,snippet");
 

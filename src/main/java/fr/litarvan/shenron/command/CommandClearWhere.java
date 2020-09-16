@@ -32,7 +32,7 @@ public class CommandClearWhere implements CommandHandler
     @Override
     public Object handle(MessageContext context, ArgumentMap args) throws Exception
     {
-        context.getMessage().delete().submit().get();
+        context.getMessage().delete().complete();
 
         List<Message> messages = context.getChannel().getHistory().retrievePast(100).complete();
         messages.remove(0);
@@ -93,7 +93,7 @@ public class CommandClearWhere implements CommandHandler
         }
 
         List<Message> finalMessages = messages;
-        Interact.from(context.info("Supprimer des messages ?", message).get(), context.getUser())
+        Interact.from(context.info("Supprimer des messages ?", message).join(), context.getUser())
                 .thenDelete()
                 .on(Interact.YES, c -> {
                     if (finalMessages.size() == 1)
@@ -105,11 +105,7 @@ public class CommandClearWhere implements CommandHandler
                         ((TextChannel) context.getChannel()).deleteMessages(finalMessages).queue();
                     }
 
-                    try {
-                        MessageUtils.deleteAfter(context.info("Done", "✅").get(), 1500);
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
+                    MessageUtils.deleteAfter(context.info("Done", "✅").join(), 1500);
                 })
                 .on(Interact.NO, c -> {});
 

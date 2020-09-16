@@ -31,7 +31,7 @@ public class CommandClear implements CommandHandler
             return context.warn("Argument invalide", "Le nombre de message doit être supérieur à 0");
         }
 
-        Interact.from(context.info("Supprimer des messages ?", "Êtes-vous sûr de vouloir supprimer " + amount + " messages ?").get(), context.getUser())
+        Interact.from(context.info("Supprimer des messages ?", "Êtes-vous sûr de vouloir supprimer " + amount + " messages ?").join(), context.getUser())
                 .thenDelete()
                 .on(Interact.YES, c -> delete(context, amount))
                 .on(Interact.NO, c -> {});
@@ -62,10 +62,6 @@ public class CommandClear implements CommandHandler
             amount -= messages.size();
         }
 
-        try {
-            MessageUtils.deleteAfter(context.info("Done", "✅").get(), 1500);
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        MessageUtils.deleteAfter(context.info("Done", "✅").join(), 1500);
     }
 }

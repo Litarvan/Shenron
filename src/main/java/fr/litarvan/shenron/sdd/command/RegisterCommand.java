@@ -110,17 +110,12 @@ public class RegisterCommand implements CommandHandler
         Member finalNewMember = newMember;
         boolean finalDeleteAfter = deleteAfter;
 
-        Interact.from(context.info("Voulez-vous ajouter '" + newMember.getEffectiveName() + "' ?", presentationMessage).get(), context.getUser(), 15000L)
+        Interact.from(context.info("Voulez-vous ajouter '" + newMember.getEffectiveName() + "' ?", presentationMessage).join(), context.getUser(), 15000L)
                 .thenDelete()
                 .on(Interact.YES, (c) -> {
-                    Message message = null;
-                    try {
-                        message = context.info("Ajout en cours", "Ajout de " + finalNewMember.getAsMention() + "...").get();
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
+                    Message message = context.info("Ajout en cours", "Ajout de " + finalNewMember.getAsMention() + "...").join();
 
-                    if (!finalDeleteAfter && message != null) {
+                    if (!finalDeleteAfter) {
                         MessageUtils.deleteAfter(message, 2500);
                     }
                     guild.addRoleToMember(finalNewMember, memberRole).complete();
@@ -139,11 +134,7 @@ public class RegisterCommand implements CommandHandler
                     if (finalDeleteAfter) {
                         context.send("/clear after haskell 100");
                     } else {
-                        try {
-                            MessageUtils.deleteAfter(context.info("Messages non supprimés", "Messages non supprimés dû à la présence de plusieurs nouveaux membres").get(), 2500);
-                        } catch (InterruptedException | ExecutionException e) {
-                            e.printStackTrace();
-                        }
+                        MessageUtils.deleteAfter(context.info("Messages non supprimés", "Messages non supprimés dû à la présence de plusieurs nouveaux membres").join(), 2500);
                     }
                 })
                 .on(Interact.NO, (c) -> {});
