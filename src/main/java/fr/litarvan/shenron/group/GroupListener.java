@@ -39,7 +39,7 @@ public class GroupListener
     @SubscribeEvent
     public void onMessageReactionAdd(MessageReactionAddEvent event)
     {
-        if (event.getUser().isBot() || !event.getGuild().retrieveMember(event.getJDA().getSelfUser()).complete().hasPermission(Permission.MESSAGE_READ))
+        if (event.retrieveUser().complete().isBot() || !event.getGuild().retrieveMember(event.getJDA().getSelfUser()).complete().hasPermission(Permission.MESSAGE_READ))
         {
             return;
         }
@@ -54,14 +54,14 @@ public class GroupListener
                 return;
             }
 
-            guild.addRoleToMember(guild.retrieveMember(event.getUser()).complete(), role).queue();
+            guild.addRoleToMember(guild.retrieveMember(event.retrieveUser().complete()).complete(), role).queue();
         });
     }
 
     @SubscribeEvent
     public void onMessageReactionRemove(MessageReactionRemoveEvent event)
     {
-        if (event.getUser().isBot())
+        if (event.retrieveUser().complete().isBot())
         {
             return;
         }
@@ -76,7 +76,7 @@ public class GroupListener
                 return;
             }
 
-            guild.removeRoleFromMember(guild.retrieveMember(event.getUser()).complete(), role).queue();
+            guild.removeRoleFromMember(guild.retrieveMember(event.retrieveUser().complete()).complete(), role).queue();
         });
     }
 
